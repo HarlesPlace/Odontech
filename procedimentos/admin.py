@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+r = admin.site.register
+
+r(Procedimento)
+r(ListProcedimentosConsulta)
