@@ -40,6 +40,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "staticpages.apps.StaticpagesConfig",
+    "clinicas",
+    "consultas",
+    "contas",
+    "exames",
+    "funcionarios",
+    "pacientes",
+    "procedimentos",
 ]
 
 MIDDLEWARE = [
