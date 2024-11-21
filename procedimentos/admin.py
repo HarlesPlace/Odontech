@@ -4,4 +4,3 @@ from .models import *
 r = admin.site.register
 
 r(Procedimento)
-r(ListProcedimentosConsulta)
