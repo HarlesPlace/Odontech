@@ -1,8 +1,12 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import get_user_model, authenticate, login, logout, login_required
+from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.views import View
 from django.contrib import messages
 from .forms import UserRegistrationForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.auth.forms import UserCreationForm
 
 User = get_user_model()
 
@@ -49,3 +53,14 @@ class LogoutView(View):
 def user_profile(request):
     return render(request, 'accounts/profile.html', {'user': request.user})
 
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('index'))
+    else:
+        form = UserCreationForm()
+
+    context = {'form': form}
+    return render(request, 'accounts/signup.html', context)

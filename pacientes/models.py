@@ -11,3 +11,4 @@ class Cliente(models.Model):
     plano_saude = models.CharField(max_length=100, null=True, blank=True)
     historico_clinico = models.TextField()
     endereco = models.ForeignKey(Endereco, on_delete=models.SET_NULL, null=True)
+    numero_residencial = models.CharField(max_length=10)
