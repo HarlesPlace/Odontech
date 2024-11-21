@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="GABRIEL NEGREIROS, NICOLAS SOBRAL CRUZ, PIETRO DI BEO, PIETRO LUIGI BALDAN CARBONE">
+	<meta name="description" content="Trabalho apresentado a disciplina de Sistemas de Informação da Escola Politécnica da Universidade de São Paulo">
+	<meta name="keywords" content="">
+	<meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"> 
+    <!-- Favicon 
+	<link rel="shortcut icon" href="{% static 'favicon.png' %}">
+    -->
+    <title>{% block title %}{% endblock %} | Odontech</title>
+</head>
+<body>
+   <header>
+
+   </header>
+
+   <main>
+    {% block content %}
+    {% endblock content %}
+    </main>
+
+   <footer>
+
+   </footer>
+</body>
+</html>
