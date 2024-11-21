@@ -8,6 +8,6 @@ class Procedimento(models.Model):
     custo = models.DecimalField(max_digits=10, decimal_places=2)
     duracao_media = models.DurationField()
 
-class ListProcedimentosConsulta(models.Model):
-    consulta = models.ForeignKey('appointments.Consulta', on_delete=models.CASCADE)
-    procedimento = models.ForeignKey(Procedimento, on_delete=models.CASCADE)
+#class ListProcedimentosConsulta(models.Model):
+#    consulta = models.ForeignKey('appointments.Consulta', on_delete=models.CASCADE)
+#    procedimento = models.ForeignKey(Procedimento, on_delete=models.CASCADE)

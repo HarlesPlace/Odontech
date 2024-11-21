@@ -40,13 +40,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "staticpages.apps.StaticpagesConfig",
-    "clinicas",
-    "consultas",
-    "contas",
-    "exames",
-    "funcionarios",
-    "pacientes",
-    "procedimentos",
+    "clinicas.apps.ClinicasConfig",
+    "consultas.apps.ConsultasConfig",
+    "contas.apps.ContasConfig",
+    "exames.apps.ExamesConfig",
+    "funcionarios.apps.FuncionariosConfig",
+    "pacientes.apps.PacientesConfig",
+    "procedimentos.apps.ProcedimentosConfig",
 ]
 
 MIDDLEWARE = [
@@ -138,3 +138,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = 'contas.User'
+

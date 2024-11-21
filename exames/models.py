@@ -16,3 +16,4 @@ class Pedido(models.Model):
     data = models.DateField()
     status = models.CharField(max_length=20)
     link_resultado = models.URLField(null=True, blank=True)
+    exames=models.ManyToManyField(Exame)
