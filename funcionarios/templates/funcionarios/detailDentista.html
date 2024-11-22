@@ -1,0 +1,14 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+{{ dentista.nome }} 
+{% endblock title %} 
+
+{% block content %}
+<ul>
+    <li>Dentista: {{ dentista.nome }}</li>
+    <li>Contratada em: {{ dentista.data_contratacao |date:"D, d M Y" }}</li>
+    <li><a href="{% url 'funcionarios:updateDentista' post.id %}">Editar </a></li>
+    <li><a href="{% url 'funcionarios:deleteDentista' post.id %}">Apagar </a></li>
+  </ul>
+{% endblock content %}

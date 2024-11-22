@@ -1,0 +1,10 @@
+{% extends 'base.html' %} 
+{% block content %}
+<form action="{% url 'funcionarios:deleteDentista' dentista.id %}" method="post">
+    {% csrf_token %}
+    <p>
+      Você tem certeza que deseja apagar o post "{{ dentista.nome }} "?
+    </p>
+    <button type="submit">Apagar</button>
+</form>
+{% endblock content %}
