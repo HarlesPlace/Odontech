@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import AuthenticationForm
 from pacientes.models import Cliente
 
 User = get_user_model()
@@ -36,7 +37,11 @@ class UserRegistrationForm(forms.ModelForm):
         user=super().save(commit=False) 
         user.tipo_usuario= 'client'
         user.username = user.email
+        user.set_password(form.cleaned_data.get("password"))
         if commit: 
             user.save()
             Cliente.objects.create(usuario=user,nome=(f'{user.first_name} {user.last_name}'))
         return user
+    
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-control'}))

@@ -28,11 +28,11 @@ class RegisterUserView(View):
 
 class LoginView(View):
     def get(self, request):
-        form = AuthenticationForm()
+        form = CustomAuthenticationForm() 
         return render(request, 'contas/login.html', {'form': form})
 
     def post(self, request):
-        form = AuthenticationForm(request, data=request.POST)
+        form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
