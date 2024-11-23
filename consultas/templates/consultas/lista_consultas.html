@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Consultas{% endblock %}
+
+{% block content %}
+    <h1>Consultas Agendadas</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Status</th>
+                <th>Paciente</th>
+                <th>Dentista</th>
+                <th>Procedimentos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for consulta in consultas %}
+                <tr>
+                    <td>{{ consulta.data }}</td>
+                    <td>{{ consulta.hora }}</td>
+                    <td>{{ consulta.status }}</td>
+                    <td>{{ consulta.paciente.nome }}</td>
+                    <td>{{ consulta.dentista.nome }}</td>
+                    <td>
+                        {% for procedimento in consulta.procedimentos.all %}
+                            <span>{{ procedimento.nome }}</span>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">Nenhuma consulta agendada no momento.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    
+    <div class="pagination">
+        <span class="step-links">
+            {% if consultas.has_previous %}
+                <a href="?page=1">&laquo; primeira</a>
+                <a href="?page={{ consultas.previous_page_number }}">anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ consultas.number }} de {{ consultas.paginator.num_pages }}.
+            </span>
+
+            {% if consultas.has_next %}
+                <a href="?page={{ consultas.next_page_number }}">próxima</a>
+                <a href="?page={{ consultas.paginator.num_pages }}">última &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}
