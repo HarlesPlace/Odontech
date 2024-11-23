@@ -1,0 +1,9 @@
+{% extends 'base.html' %} 
+{% block content %}
+<h2>Inserir Novo Dentista</h2>
+<form method="POST" action="{% url 'funcionarios:createUserDentista' %}">
+  {% csrf_token %}
+  {{form.as_p}}
+  <button type="submit">Criar</button>
+</form>
+{% endblock content %}
