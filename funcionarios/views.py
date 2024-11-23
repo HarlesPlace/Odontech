@@ -1,9 +1,9 @@
 #from django.shortcuts import render,get_object_or_404
 from django.views import generic
 from django.urls import reverse
-from .models import Dentista
+from .models import Dentista,Secretario
 from contas.models import User
-from .forms import DentistaForm, UserDentistaRegistrationForm
+from .forms import DentistaForm, UserDentistaRegistrationForm, SecretarioForm, UserSecretarioRegistrationForm
 
 class CreateUserDentista(generic.CreateView):
     model=User
@@ -41,3 +41,38 @@ class DetailDentista(generic.DetailView):
     model=Dentista
     template_name='funcionarios/detailDentista.html'
 
+class CreateUserSecretario(generic.CreateView):
+    model=User
+    template_name="funcionarios/createUserSecretario.html"
+    form_class=UserSecretarioRegistrationForm
+    def get_success_url(self):
+        secretario = Secretario.objects.get(usuario=self.object.pk)
+        return reverse('funcionarios:updateSecretario',args=[secretario.pk])
+
+class CreateSecretario(generic.CreateView):
+    model=Secretario
+    template_name="funcionarios/createSecretario.html"
+    form_class=SecretarioForm
+    def get_success_url(self):
+        return reverse('funcionarios:detailSecretario', args=[self.object.pk])
+       
+class UpdateSecretario(generic.UpdateView):
+    model= Secretario
+    template_name="funcionarios/updateSecretario.html"
+    form_class=SecretarioForm
+    def get_success_url(self):
+        return reverse('funcionarios:detailSecretario', args=[self.object.pk])
+
+class DeleteSecretario(generic.DeleteView):
+    model=Secretario
+    template_name="funcionarios/deleteSecretario.html"
+    def get_success_url(self):
+        return reverse('funcionarios:indexSecretario')
+    
+class ListSecretario(generic.ListView):
+    model=Secretario
+    template_name='funcionarios/indexSecretario.html'
+
+class DetailSecretario(generic.DetailView):
+    model=Secretario
+    template_name='funcionarios/detailSecretario.html'
