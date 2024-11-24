@@ -20,7 +20,7 @@ class RegisterUserView(View):
         if form.is_valid():
             form.save()
             messages.success(request, "Usuário registrado com sucesso!")
-            return redirect('contas:login')
+            return redirect('contas:profile')
         else:
             messages.error(request, "Erro ao registrar o usuário. Verifique os dados.")
         return render(request, 'contas/register.html', {'form': form})

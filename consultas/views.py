@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from .forms import *
 
@@ -14,12 +15,22 @@ class CriarConsultaView(CreateView):
         response = super().form_valid(form)
         return response
     
-class ListaConsultasView(ListView):
+class ListaConsultasView(LoginRequiredMixin, ListView):
     model = Consulta
     template_name = 'consultas/lista_consultas.html'
     context_object_name = 'consultas'
-    paginate_by = 10  
 
     def get_queryset(self):
+        user = self.request.user
 
-        return Consulta.objects.all().order_by('-data', '-hora')
+        
+        if user.tipo_usuario == 'client':
+            # Se for paciente, exibe somente suas consultas
+            return Consulta.objects.filter(paciente=user.cliente)
+        
+        elif user.tipo_usuario == 'dentist':
+            # Se for dentista, exibe as consultas onde ele é o dentista
+            return Consulta.objects.filter(dentista=user.dentista)
+
+        # Caso seja admin ou secretario, exibe todas as consultas
+        return Consulta.objects.all()

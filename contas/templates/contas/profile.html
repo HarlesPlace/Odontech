@@ -10,7 +10,12 @@ Perfil
 <ul>
     <li>Email: {{ user.email }}</li>
     <li>Tipo de usuário: {{ user.tipo_usuario }}</li>
-    
 </ul>
+
+<div class="actions">
+    
+    <a href="{% url 'consultas:criar_consulta' %}" class="btn btn-primary">Agendar Nova Consulta</a>
+    <a href="{% url 'consultas:lista_consultas' %}" class="btn btn-secondary">Ver Minhas Consultas</a>
+</div>
 
 {% endblock content %}
