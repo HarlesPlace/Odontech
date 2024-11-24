@@ -1,0 +1,27 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<h2>Busca de Dentista por Nome</h2>
+<form action="{% url 'funcionarios:searchDentista' %}">
+    <p>
+        <label for="id_query">Nome:</label>
+        <input type="text" name="query" id="id_query" />
+    </p>
+    <button type="submit">Buscar</button>
+</form>
+
+<h2>Dentistas Filtrados</h2>
+{% if dentista_list %}
+<section>
+  {% for dentista in dentista_list %}
+  <article>
+    <a href="{% url 'funcionarios:detailDentista' dentista.id %}">
+      <p>{{ dentista.nome }} ({{ dentista.especialidade}})</p>
+    </a>
+  </article>
+  {% endfor %}
+</section>
+{% else %}
+<p>Não foi encontrado nenhum Dentista.</p>
+{% endif %} 
+{% endblock content %}

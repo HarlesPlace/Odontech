@@ -1,4 +1,4 @@
-#from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404
 from django.views import generic
 from django.urls import reverse
 from .models import Dentista,Secretario
@@ -41,6 +41,14 @@ class DetailDentista(generic.DetailView):
     model=Dentista
     template_name='funcionarios/detailDentista.html'
 
+def searchDentista(request):
+    context = {}
+    if request.GET.get('query', False):
+        search_term = request.GET['query'].lower()
+        dentista_list = Dentista.objects.filter(titulo__icontains=search_term)
+        context = {"dentista_list": dentista_list}
+    return render(request, 'funcionarios/searchDentista.html', context)
+
 class CreateUserSecretario(generic.CreateView):
     model=User
     template_name="funcionarios/createUserSecretario.html"
@@ -76,3 +84,11 @@ class ListSecretario(generic.ListView):
 class DetailSecretario(generic.DetailView):
     model=Secretario
     template_name='funcionarios/detailSecretario.html'
+
+def searchSecretario(request):
+    context = {}
+    if request.GET.get('query', False):
+        search_term = request.GET['query'].lower()
+        secretario_list = Dentista.objects.filter(titulo__icontains=search_term)
+        context = {"secretario_list": secretario_list}
+    return render(request, 'funcionarios/searchSecretario.html', context)

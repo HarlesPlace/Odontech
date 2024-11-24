@@ -1,0 +1,27 @@
+{% extends 'base.html' %} 
+{% block content %}
+<h2>Todos os Dentistas</h2>
+
+<section>
+  <p>
+    Muitos resultados? <a href="{% url 'funcionarios:searchDentista' %}">Buscar Dentista</a>
+  </p>
+  <p>
+    <a href="{% url 'funcionarios:createUserDentista' %}">Adicionar Novo Dentista</a>
+  </p>
+</section>
+<hr>
+{% if dentista_list %}
+<section>
+  {% for dentista in dentista_list %}
+  <article>
+    <a href="{% url 'funcionarios:detailDentista' dentista.id %}">
+      <p>{{ dentista.nome }}</p>
+    </a>
+  </article>
+  {% endfor %}
+</section>
+{% else %}
+<p>Não foi encontrado nenhum dentista.</p>
+{% endif %} 
+{% endblock content %}
