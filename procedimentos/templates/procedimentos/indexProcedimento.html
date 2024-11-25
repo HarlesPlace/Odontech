@@ -1,0 +1,27 @@
+{% extends 'base.html' %} 
+{% block content %}
+<h2>Todos os Procedimentos</h2>
+
+<section>
+  <p>
+    Muitos resultados? <a href="{% url 'procedimentos:searchProcedimento' %}">Buscar Procedimento</a>
+  </p>
+  <p>
+    <a href="{% url 'procedimentos:createProcedimento' %}">Adicionar Novo Procedimento</a>
+  </p>
+</section>
+<hr>
+{% if procedimento_list %}
+<section>
+  {% for procedimento in procedimento_list %}
+  <article>
+    <a href="{% url 'procedimentos:detailProcedimento' procedimento.id %}">
+      <p>{{ procedimento.nome }}</p>
+    </a>
+  </article>
+  {% endfor %}
+</section>
+{% else %}
+<p>Não foi encontrado nenhum procedimento.</p>
+{% endif %} 
+{% endblock content %}

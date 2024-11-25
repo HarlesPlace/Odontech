@@ -1,0 +1,15 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+{{ procedimento.nome }} 
+{% endblock title %} 
+
+{% block content %}
+<ul>
+    <li>Procedimento: {{ procediemnto.nome }}</li>
+    <li>Preço: {{ procedimento.preco }}</li>
+    <li>Descrição: {{ procedimento.descricao }}</li>
+    <li><a href="{% url 'procedimentos:updateProcedimento' procedimento.id %}">Editar </a></li>
+    <li><a href="{% url 'procedimentos:deleteProcedimento' procedimento.id %}">Apagar </a></li>
+  </ul>
+{% endblock content %}
