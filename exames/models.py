@@ -3,7 +3,6 @@ from pacientes.models import Cliente
 from funcionarios.models import Dentista
 
 
-# Create your models here.
 class Exame(models.Model):
     nome = models.CharField(max_length=100)
     descricao = models.TextField()

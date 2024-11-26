@@ -24,8 +24,8 @@
                         <td>{{ consulta.paciente.nome }}</td>
                         <td>{{ consulta.dentista.nome }}</td>
                         <td>
-                            <!-- Aqui você pode adicionar links para visualizar ou editar -->
-                            <a href="{% url 'consultas:detalhes' consulta.id %}">Ver Detalhes</a>
+                            
+                            <a href="{% url 'consultas:detalhes_consulta' consulta.id %}">Ver Detalhes</a>
                         </td>
                     </tr>
                 {% endfor %}

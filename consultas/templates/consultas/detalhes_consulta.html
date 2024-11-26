@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Detalhes da Consulta</h2>
+  
+  <p><strong>Paciente:</strong> {{ consulta.paciente }}</p>
+  <p><strong>Dentista:</strong> {{ consulta.dentista }}</p>
+  <p><strong>Data:</strong> {{ consulta.data }}</p>
+  <p><strong>Hora:</strong> {{ consulta.hora }}</p>
+  <p><strong>Status:</strong> {{ consulta.status }}</p>
+  
+  <h3>Procedimentos Realizados:</h3>
+  <ul>
+    {% for procedimento in consulta.procedimentos.all %}
+      <li>{{ procedimento.nome }} - {{ procedimento.descricao }}</li>
+    {% endfor %}
+  </ul>
+  
+  <a href="{% url 'consultas:lista_consultas' %}">Voltar para a lista de consultas</a>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Lista de Pedidos de Exames</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Dentista</th>
+        <th>Data</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pedido in pedidos %}
+        <tr>
+          <td>{{ pedido.cliente }}</td>
+          <td>{{ pedido.dentista }}</td>
+          <td>{{ pedido.data }}</td>
+          <td>{{ pedido.status }}</td>
+          <td><a href="{% url 'exames:criar_pedido' %}">Detalhes</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

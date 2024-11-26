@@ -4,7 +4,6 @@ from funcionarios.models import Dentista
 from procedimentos.models import Procedimento
 
 
-# Create your models here.
 class Consulta(models.Model):
     data = models.DateField()
     hora = models.TimeField()

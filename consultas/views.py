@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from .forms import *
@@ -34,3 +34,8 @@ class ListaConsultasView(LoginRequiredMixin, ListView):
 
         # Caso seja admin ou secretario, exibe todas as consultas
         return Consulta.objects.all()
+    
+class ConsultaDetailView(DetailView):
+    model = Consulta
+    template_name = 'consultas/detalhes_consulta.html'
+    context_object_name = 'consulta'

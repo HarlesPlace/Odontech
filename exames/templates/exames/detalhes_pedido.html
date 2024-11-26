@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Detalhes do Pedido de Exame</h2>
+  
+  <p><strong>Cliente:</strong> {{ pedido.cliente }}</p>
+  <p><strong>Dentista:</strong> {{ pedido.dentista }}</p>
+  <p><strong>Data:</strong> {{ pedido.data }}</p>
+  <p><strong>Status:</strong> {{ pedido.status }}</p>
+  
+  <h3>Exames Solicitados:</h3>
+  <ul>
+    {% for exame in pedido.exames.all %}
+      <li>{{ exame.nome }} - {{ exame.descricao }}</li>
+    {% endfor %}
+  </ul>
+  
+  <p><strong>Resultado:</strong> 
+    {% if pedido.link_resultado %}
+      <a href="{{ pedido.link_resultado }}" target="_blank">Ver Resultado</a>
+    {% else %}
+      Não disponível
+    {% endif %}
+  </p>
+
+  <a href="{% url 'exames:lista_pedidos' %}">Voltar para a lista de pedidos</a>
+{% endblock %}
