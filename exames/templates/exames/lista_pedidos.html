@@ -19,7 +19,7 @@
           <td>{{ pedido.dentista }}</td>
           <td>{{ pedido.data }}</td>
           <td>{{ pedido.status }}</td>
-          <td><a href="{% url 'exames:criar_pedido' %}">Detalhes</a></td>
+          <td><a href="{% url 'exames:detalhes_pedido' pedido.id%}">Detalhes</a></td>
         </tr>
       {% endfor %}
     </tbody>
