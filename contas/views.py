@@ -19,7 +19,6 @@ class RegisterUserView(View):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            print('passei')
             messages.success(request, "Usuário registrado com sucesso!")
             return redirect('contas:login')
         else:

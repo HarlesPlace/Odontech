@@ -26,7 +26,7 @@ class ConsultaForm(forms.ModelForm):
         required=True,
         label="Dentista"
     )
-    procedimentos = forms.ModelMultipleChoiceField(
+    procedimentos = NomeModelChoiceField(
         queryset=Procedimento.objects.all(),
         required=True,
         widget=forms.CheckboxSelectMultiple,
