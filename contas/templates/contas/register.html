@@ -1,10 +1,13 @@
-{% extends 'base.html' %}
-
-{% block title %}
-Criar Usuário
-{% endblock title %}
-
+{% load static %}
 {% block content %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'register.css' %}">
+    <title>Register</title>
+</head>
 <h2>Criar Usuário</h2>
 
 <form method="post">

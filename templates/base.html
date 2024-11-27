@@ -27,6 +27,17 @@
                 {% else %}
                     <li><a href="{% url 'login' %}">Log in</a></li>
                 {% endif %}
+        <div class="menu-container">
+            <button class="menu-button" onclick="openMenu()">
+                <img src="{% static 'icone_menu.png' %}" alt="Menu">
+            </button>
+            <div id="sidebar" class="sidebar">
+                <a href="#home">Início</a>
+                <a href="#sobre">Sobre</a>
+                <a href="#contato">Contato</a>
+            </div>
+        </div>
+        <h1>Odontech</h1>
 
    </header>
 
