@@ -54,6 +54,8 @@ class Dentista(models.Model):
         # Deleta o usuário associado antes de deletar o dentista
         self.usuario.delete()
         super().delete(*args, **kwargs)
+    def __str__(self):
+        return self.nome
 
     def __str__(self):
         return self.nome
@@ -78,6 +80,8 @@ class Secretario(models.Model):
         # Deleta o usuário associado antes de deletar o secretário
         self.usuario.delete()
         super().delete(*args, **kwargs)
+    def __str__(self):
+        return self.nome
 
 class Administrador(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -94,3 +98,4 @@ class Administrador(models.Model):
     estado = models.CharField(max_length=2,choices=ESTADOS_CHOICES, default='SP')
     ultima_atualizacao = models.DateTimeField(auto_now=True,null=True)
     clinica = models.ForeignKey(Clinica, on_delete=models.CASCADE)
+    

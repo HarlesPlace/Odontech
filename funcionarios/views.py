@@ -45,7 +45,7 @@ def searchDentista(request):
     context = {}
     if request.GET.get('query', False):
         search_term = request.GET['query'].lower()
-        dentista_list = Dentista.objects.filter(titulo__icontains=search_term)
+        dentista_list = Dentista.objects.filter(nome__icontains=search_term)
         context = {"dentista_list": dentista_list}
     return render(request, 'funcionarios/searchDentista.html', context)
 
@@ -89,6 +89,6 @@ def searchSecretario(request):
     context = {}
     if request.GET.get('query', False):
         search_term = request.GET['query'].lower()
-        secretario_list = Dentista.objects.filter(titulo__icontains=search_term)
+        secretario_list = Dentista.objects.filter(nome__icontains=search_term)
         context = {"secretario_list": secretario_list}
     return render(request, 'funcionarios/searchSecretario.html', context)
