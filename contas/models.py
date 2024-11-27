@@ -2,8 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    #USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name', 'last_name','email']
     email = models.EmailField(unique=True)
     tipo_usuario = models.CharField(max_length=50, 
                                     choices=[('admin', 'Administrador'), 

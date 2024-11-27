@@ -25,11 +25,10 @@ class RegisterUserView(View):
             messages.error(request, "Erro ao registrar o usuário. Verifique os dados.")
         return render(request, 'contas/register.html', {'form': form})
     
-
 class LoginView(View):
     def get(self, request):
         form = CustomAuthenticationForm() 
-        return render(request, 'contas/login.html', {'form': form})
+        return render(request, 'registration/login.html', {'form': form})
 
     def post(self, request):
         form = CustomAuthenticationForm(request, data=request.POST)
@@ -56,14 +55,7 @@ class LoginView(View):
                 return redirect('contas:profile')
             else:
                 messages.error(request, "Credenciais inválidas. Tente novamente.")
-        return render(request, 'contas/login.html', {'form': form})
-    
-
-class LogoutView(View):
-    def get(self, request):
-        logout(request)
-        return redirect('contas:login')
-
+        return render(request, 'registration/login.html', {'form': form})
 
 @login_required
 def user_profile(request):
