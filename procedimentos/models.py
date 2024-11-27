@@ -7,6 +7,9 @@ class Procedimento(models.Model):
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     custo = models.DecimalField(max_digits=10, decimal_places=2)
     duracao_media = models.DurationField()
+    def __str__(self):
+        return self.nome
+
 
 #class ListProcedimentosConsulta(models.Model):
 #    consulta = models.ForeignKey('appointments.Consulta', on_delete=models.CASCADE)

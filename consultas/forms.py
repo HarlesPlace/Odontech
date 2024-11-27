@@ -14,7 +14,7 @@ class NomeModelChoiceField(forms.ModelChoiceField):
 class ConsultaForm(forms.ModelForm):
     class Meta:
         model = Consulta
-        fields = ['data', 'hora', 'dentista','paciente', 'procedimentos']
+        fields = ['data', 'hora', 'dentista','paciente']
 
     paciente = forms.ModelChoiceField(
         queryset=Cliente.objects.all(),
@@ -26,12 +26,13 @@ class ConsultaForm(forms.ModelForm):
         required=True,
         label="Dentista"
     )
-    procedimentos = forms.ModelMultipleChoiceField(
-        queryset=Procedimento.objects.all(),
-        required=True,
-        widget=forms.CheckboxSelectMultiple,
-        label="Procedimentos"
-    )
+    
+    #procedimentos = forms.ModelMultipleChoiceField(
+        #queryset=Procedimento.objects.all(),
+        #required=True,
+        #widget=forms.CheckboxSelectMultiple,
+        #label="Procedimentos"
+    #)
 
     data = forms.DateField(widget=forms.SelectDateWidget, label="Data")
     hora = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}), label="Hora")
@@ -42,4 +43,11 @@ class ConsultaForm(forms.ModelForm):
         consulta.status='agendada'
         if commit: 
             consulta.save()
+            # Associa o procedimento automaticamente para cliente, deixem um procedimento "Consulta" no bd de vcs
+            procedimento_especifico = Procedimento.objects.get(nome="Consulta") 
+            consulta.procedimentos.add(procedimento_especifico)
+            # ---------- jeito que funciona pra cadastrar n2n--------------------------
+            #if 'procedimentos' in self.cleaned_data:
+                #procedimentos = self.cleaned_data['procedimentos']
+                #consulta.procedimentos.set(procedimentos)  # Associa os procedimentos selecionados à consulta
         return consulta

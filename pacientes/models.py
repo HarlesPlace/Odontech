@@ -46,3 +46,5 @@ class Cliente(models.Model):
     estado = models.CharField(max_length=2,choices=ESTADOS_CHOICES, default='SP')
     ultima_atualizacao = models.DateTimeField(auto_now=True,null=True)
     numero_residencial = models.CharField(max_length=10,null=True)
+    def __str__(self):
+        return self.nome
