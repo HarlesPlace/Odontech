@@ -13,16 +13,16 @@ Perfil
 </ul>
 
     {% if user.tipo_usuario == 'admin' %}
-    <li> admin lets go</li>
-    <div class="admin_actions">
 
-            <a href="{% url 'funcionarios:indexDentista' %}" class="btn btn-primary">Ver Dentistas</a>
-            <a href="{% url 'funcionarios:indexSecretario' %}" class="btn btn-primary">Ver Secretários</a>
+        <div class="admin_actions">
 
-        </div>
+                <a href="{% url 'funcionarios:indexDentista' %}" class="btn btn-primary">Ver Dentistas</a>
+                <a href="{% url 'funcionarios:indexSecretario' %}" class="btn btn-primary">Ver Secretários</a>
+
+            </div>
 
     {% elif user.tipo_usuario == 'secretary' %}
-        <li> secretarios lets go</li>
+
         <div class="secretary_actions">
 
             <a href="{% url 'funcionarios:indexDentista' %}" class="btn btn-primary">Ver Dentistas</a>
@@ -31,7 +31,7 @@ Perfil
         </div>
 
     {% elif user.tipo_usuario == 'dentista' %}
-        <li> dentista lets go</li>
+
     {% endif%}
 
 
