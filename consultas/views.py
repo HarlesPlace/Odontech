@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from .forms import *
 
-class CriarConsultaView(CreateView):
+class CriarConsultaView(CreateView,LoginRequiredMixin):
     model = Consulta
     form_class = ConsultaForm
     template_name = 'consultas/criar_consulta.html'

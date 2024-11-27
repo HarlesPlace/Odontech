@@ -14,19 +14,19 @@ class NomeModelChoiceField(forms.ModelChoiceField):
 class ConsultaForm(forms.ModelForm):
     class Meta:
         model = Consulta
-        fields = ['data', 'hora', 'status', 'paciente', 'dentista', 'procedimentos']
+        fields = ['data', 'hora', 'dentista','paciente', 'procedimentos']
 
-    paciente = NomeModelChoiceField(
+    paciente = forms.ModelChoiceField(
         queryset=Cliente.objects.all(),
         required=True,
         label="Paciente"
     )
-    dentista = NomeModelChoiceField(
+    dentista = forms.ModelChoiceField(
         queryset=Dentista.objects.all(),
         required=True,
         label="Dentista"
     )
-    procedimentos = NomeModelChoiceField(
+    procedimentos = forms.ModelMultipleChoiceField(
         queryset=Procedimento.objects.all(),
         required=True,
         widget=forms.CheckboxSelectMultiple,
@@ -35,3 +35,11 @@ class ConsultaForm(forms.ModelForm):
 
     data = forms.DateField(widget=forms.SelectDateWidget, label="Data")
     hora = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}), label="Hora")
+
+    def save(self,commit=True):
+        consulta=super().save(commit=False)
+        #consulta.paciente = Cliente.objects.get(usuario_id=self.user.id)
+        consulta.status='agendada'
+        if commit: 
+            consulta.save()
+        return consulta
