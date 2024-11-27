@@ -12,6 +12,17 @@ Perfil
     <li>Tipo de usuário: {{ user.tipo_usuario }}</li>
 </ul>
 
+    {% if user.tipo_usuario == 'admin' %}
+        <h3>Lista de Dentistas</h3>
+        <ul>
+            {% for User in dentistas %}
+                <li>{{ dentista.name }} ({{ dentista.email }})</li>
+            {% empty %}
+                <li>Não há dentistas cadastrados.</li>
+            {% endfor %}
+        </ul>
+    {% endif%}
+
 <div class="actions">
     
     <a href="{% url 'consultas:criar_consulta' %}" class="btn btn-primary">Agendar Nova Consulta</a>
