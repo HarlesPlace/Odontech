@@ -1,7 +1,7 @@
 from django.db import models
 from contas.models import User
 
-# Create your models here.
+
 class Cliente(models.Model):
     ESTADOS_CHOICES = [
         ('AC', 'Acre'),
@@ -32,6 +32,7 @@ class Cliente(models.Model):
         ('SE', 'Sergipe'),
         ('TO', 'Tocantins'),
     ]
+
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     nome=models.CharField(max_length=200)
     cpf = models.CharField(max_length=14, unique=True,null=True)

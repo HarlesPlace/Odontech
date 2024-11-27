@@ -35,3 +35,14 @@ class ConsultaForm(forms.ModelForm):
 
     data = forms.DateField(widget=forms.SelectDateWidget, label="Data")
     hora = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}), label="Hora")
+
+    def __init__(self, *args, **kwargs):
+        # Pega os argumentos do view para verificar se devemos desabilitar campos
+        disabled_fields = kwargs.pop('disabled_fields', [])
+        super().__init__(*args, **kwargs)
+
+        # Desabilita os campos conforme necessário
+        for field in disabled_fields:
+            if field in self.fields:
+                self.fields[field].widget.attrs['disabled'] = 'disabled'
+                self.fields[field].required = False  # Torna o campo não obrigatório

@@ -10,7 +10,8 @@ class Consulta(models.Model):
     status = models.CharField(max_length=20, 
                               choices=[('agendada', 'Agendada'), 
                                        ('suspensa', 'Suspensa'), 
-                                       ('concluída', 'Concluída')])
+                                       ('concluída', 'Concluída')],
+                              default='agendada')
     
     paciente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     dentista = models.ForeignKey(Dentista, on_delete=models.CASCADE)

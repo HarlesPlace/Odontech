@@ -1,6 +1,7 @@
 from django.db import models
 from contas.models import User
 from clinicas.models import Clinica
+
 ESTADOS_CHOICES = [
         ('AC', 'Acre'),
         ('AL', 'Alagoas'),
@@ -30,7 +31,7 @@ ESTADOS_CHOICES = [
         ('SE', 'Sergipe'),
         ('TO', 'Tocantins'),
     ]
-# Create your models here.
+
 class Dentista(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     nome = models.CharField(max_length=100)
@@ -48,6 +49,7 @@ class Dentista(models.Model):
     estado = models.CharField(max_length=2,choices=ESTADOS_CHOICES, default='SP',null=True)
     ultima_atualizacao = models.DateTimeField(auto_now=True,null=True)
     numero_residencial = models.CharField(max_length=10,null=True)
+    
     def delete(self, *args, **kwargs):
         # Deleta o usuário associado antes de deletar o dentista
         self.usuario.delete()
@@ -68,6 +70,7 @@ class Secretario(models.Model):
     estado = models.CharField(max_length=2,choices=ESTADOS_CHOICES, default='SP',null=True)
     ultima_atualizacao = models.DateTimeField(auto_now=True,null=True)
     clinica = models.ForeignKey(Clinica, on_delete=models.CASCADE,null=True)
+    
     def delete(self, *args, **kwargs):
         # Deleta o usuário associado antes de deletar o secretário
         self.usuario.delete()
