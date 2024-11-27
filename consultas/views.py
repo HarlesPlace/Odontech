@@ -8,49 +8,32 @@ from .forms import *
 
 class CriarConsultaView(LoginRequiredMixin, CreateView):
     model = Consulta
-    form_class = ConsultaForm
     template_name = 'consultas/criar_consulta.html'
     success_url = reverse_lazy('consultas:lista_consultas')
 
-
-    '''def form_valid(self, form):
-        response = super().form_valid(form)
-        return response'''
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         user = self.request.user
         
-        # Se o usuário for paciente
-        if hasattr(user, 'cliente'):  # Verifica se o usuário tem um cliente associado
-            kwargs['initial'] = {'paciente': user.cliente} # Preenche o campo paciente com o próprio paciente
-            kwargs['disabled_fields'] = ['paciente'] # Desabilita o campo paciente
+        kwargs['user'] = user  # Passando o usuário para o formulário
         
-        # Se o usuário for dentista
-        elif hasattr(user, 'dentista'):  # Verifica se o usuário tem um dentista associado
-            kwargs['initial'] = {'dentista': user.dentista}  # Preenche o campo dentista com o próprio dentista
-            kwargs['disabled_fields'] = ['dentista'] # Desabilita o campo dentista
-
         return kwargs
     
-    
-'''
-    def form_valid(self, form):
-        # Sempre que uma nova consulta for criada, o status será 'Agendada'
-        form.instance.status = 'agendada'
-
+    def get_form_class(self):
         user = self.request.user
+
+        # Verifica o tipo de usuário e escolhe o formulário correto
+        if hasattr(user, 'cliente'):
+            return ConsultaFormPaciente  # Formulário para pacientes
         
-        # Verificando se o usuário é um dentista, secretário ou administrador
-        if hasattr(user, 'dentista') or hasattr(user, 'secretario') or hasattr(user, 'administrador'):
-            # O status pode ser alterado
-            pass
+        elif hasattr(user, 'dentista'):
+            return ConsultaFormDentista  # Formulário para dentistas
+        
         else:
-            # Caso contrário, o status não pode ser alterado
-            form.instance.status = 'agendada'
+            return ConsultaForm  # Formulário com todos os campos
+        
+    
 
-        return super().form_valid(form)
-
-'''
  
 class ListaConsultasView(LoginRequiredMixin, ListView):
     model = Consulta
