@@ -55,6 +55,9 @@ class Dentista(models.Model):
         self.usuario.delete()
         super().delete(*args, **kwargs)
 
+    def __str__(self):
+        return self.nome
+
 class Secretario(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     nome = models.CharField(max_length=100)
