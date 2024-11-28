@@ -40,9 +40,10 @@ class ConsultaForm(forms.ModelForm):
         consulta.status='agendada'
 
         if commit: 
-            consulta.save()    
-            # procedimento_especifico = Procedimento.objects.get(nome="Consulta") 
-            # consulta.procedimentos.add(procedimento_especifico)
+            consulta.save()
+
+            procedimentos_selecionados = self.cleaned_data['procedimentos']
+            consulta.procedimentos.set(procedimentos_selecionados)
             
             # ---------- jeito que funciona pra cadastrar n2n--------------------------
             #if 'procedimentos' in self.cleaned_data:
@@ -122,7 +123,12 @@ class ConsultaFormDentista(forms.ModelForm):
 
         if commit: 
             consulta.save()
-            
+        
+            procedimentos_selecionados = self.cleaned_data['procedimentos']
+            for procedimento in procedimentos_selecionados:
+                consulta.procedimentos.add(procedimento)
+
+            # consulta.procedimentos.set(procedimentos_selecionados)
             # procedimento_especifico = Procedimento.objects.get(nome="Consulta") 
             # consulta.procedimentos.add(procedimento_especifico)
             

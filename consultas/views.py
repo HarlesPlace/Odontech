@@ -49,9 +49,11 @@ class ConsultaUpdateView(UpdateView):
     def get_object(self, queryset=None):
         # Obtém a consulta que será editada
         obj = super().get_object(queryset)
+
         # Verifica se o usuário tem permissão para editar a consulta
-        if not (self.request.user == obj.paciente):
+        if self.request.user == obj.paciente:
             raise Http404("Você não tem permissão para editar esta consulta")
+        
         return obj
  
 class ListaConsultasView(LoginRequiredMixin, ListView):
