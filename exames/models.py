@@ -9,6 +9,9 @@ class Exame(models.Model):
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     custo = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def __str__(self):
+        return self.nome
+
 class Pedido(models.Model):
     dentista = models.ForeignKey(Dentista, on_delete=models.CASCADE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)

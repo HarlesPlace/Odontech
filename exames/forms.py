@@ -34,8 +34,12 @@ class PedidoForm(forms.ModelForm):
         pedido = super().save(commit=False)
                 
         pedido.status = 'pendente'
+
         if commit: 
             pedido.save()
+
+            exames_selecionados = self.cleaned_data['exames']
+            pedido.exames.set(exames_selecionados)
 
         return pedido
     
@@ -68,8 +72,12 @@ class PedidoFormDentista(forms.ModelForm):
                 
         pedido.status = 'pendente'
         pedido.dentista = self.user.dentista
+        
         if commit: 
             pedido.save()
+
+            exames_selecionados = self.cleaned_data['exames']
+            pedido.exames.set(exames_selecionados)
 
         return pedido
     

@@ -23,5 +23,11 @@
     {% endif %}
   </p>
 
+  {% if user.cliente != consulta.paciente %}
+    <a href="{% url 'exames:editar_pedido' pk=pedido.pk %}">
+      <button>Editar Pedido</button>
+    </a>
+  {% endif %}
+
   <a href="{% url 'exames:lista_pedidos' %}">Voltar para a lista de pedidos</a>
 {% endblock %}
