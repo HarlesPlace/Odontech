@@ -5,16 +5,36 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from .forms import *
 
-class CriarConsultaView(CreateView,LoginRequiredMixin):
+
+class CriarConsultaView(LoginRequiredMixin, CreateView):
     model = Consulta
-    form_class = ConsultaForm
     template_name = 'consultas/criar_consulta.html'
     success_url = reverse_lazy('consultas:lista_consultas')
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        return response
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        user = self.request.user
+        
+        kwargs['user'] = user  # Passando o usuário para o formulário
+        
+        return kwargs
     
+    def get_form_class(self):
+        user = self.request.user
+
+        # Verifica o tipo de usuário e escolhe o formulário correto
+        if hasattr(user, 'cliente'):
+            return ConsultaFormPaciente  # Formulário para pacientes
+        
+        elif hasattr(user, 'dentista'):
+            return ConsultaFormDentista  # Formulário para dentistas
+        
+        else:
+            return ConsultaForm  # Formulário com todos os campos
+        
+    
+
+ 
 class ListaConsultasView(LoginRequiredMixin, ListView):
     model = Consulta
     template_name = 'consultas/lista_consultas.html'
