@@ -8,6 +8,7 @@
 <ul>
     <li>Dentista: {{ dentista.nome }}</li>
     <li>Contratada em: {{ dentista.data_contratacao |date:"D, d M Y" }}</li>
+    <li><a href="{% url 'funcionarios:horarioDentista' dentista.id %}">Horários</a></li>
     <li><a href="{% url 'funcionarios:updateDentista' dentista.id %}">Editar </a></li>
     <li><a href="{% url 'funcionarios:deleteDentista' dentista.id %}">Apagar </a></li>
   </ul>

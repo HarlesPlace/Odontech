@@ -1,9 +1,10 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.urls import reverse
 from .models import Dentista,Secretario
 from contas.models import User
-from .forms import DentistaForm, UserDentistaRegistrationForm, SecretarioForm, UserSecretarioRegistrationForm
+from consultas.models import Restricao
+from .forms import DentistaForm, UserDentistaRegistrationForm, SecretarioForm, UserSecretarioRegistrationForm, RestricaoDentistaForm
 
 class CreateUserDentista(generic.CreateView):
     model=User
@@ -92,3 +93,27 @@ def searchSecretario(request):
         secretario_list = Dentista.objects.filter(nome__icontains=search_term)
         context = {"secretario_list": secretario_list}
     return render(request, 'funcionarios/searchSecretario.html', context)
+
+class CreateRestricaoDentista(generic.CreateView):
+    model=Restricao
+    template_name="funcionarios/createRestricaoDentista.html"
+    def get(self, request, pk):
+        dentista=get_object_or_404(Dentista, id=pk)
+        form = RestricaoDentistaForm()
+        return render(request, 'funcionarios/createRestricaoDentista.html', {'form': form,'dentista':dentista})
+    
+    def post(self, request,pk):
+        form = RestricaoDentistaForm(request.POST)
+        if form.is_valid():
+            restricao = form.save(commit=False)
+            dentista=get_object_or_404(Dentista, id=pk)
+            # Associa o dentista à restrição
+            restricao.dentista= dentista
+            # Salva a restrição
+            restricao.save()
+            print(dentista.pk)
+            return render(request, 'funcionarios/detailDentista.html', {'form': form,'dentista':dentista})
+        return render(request, 'funcionarios/createRestricaoDentista.html', {'form': form})
+    
+    #def get_success_url(self):
+        #return reverse('funcionarios:detailDentista',args=[self.object.dentista.pk])
