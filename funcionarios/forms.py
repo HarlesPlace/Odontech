@@ -3,6 +3,7 @@ from django import forms
 from .models import Dentista,Secretario
 from django.contrib.auth import get_user_model
 from pacientes.models import Cliente
+from consultas.models import Restricao
 
 User = get_user_model()
 
@@ -116,4 +117,20 @@ class SecretarioForm(ModelForm):
             'Data Contratacao','Clínica',
             'Rua','Numero residencial',
             'Bairro','CEP','Cidade','Estado',
+        ]
+
+class RestricaoDentistaForm(ModelForm):
+    data = forms.DateField(widget=forms.SelectDateWidget)
+    hora_inicio = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
+    hora_fim = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
+    dentista=forms.HiddenInput
+    class Meta:
+        model=Restricao
+        fields=[
+            'data',
+            'hora_inicio', 'hora_fim',
+        ]
+        labels=[
+            'Data', 
+            'Ínício', 'Término',
         ]
