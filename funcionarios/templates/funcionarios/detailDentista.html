@@ -6,10 +6,28 @@
 
 {% block content %}
 <ul>
-    <li>Dentista: {{ dentista.nome }}</li>
-    <li>Contratada em: {{ dentista.data_contratacao |date:"D, d M Y" }}</li>
-    <li><a href="{% url 'funcionarios:horarioDentista' dentista.id %}">Horários</a></li>
-    <li><a href="{% url 'funcionarios:updateDentista' dentista.id %}">Editar </a></li>
-    <li><a href="{% url 'funcionarios:deleteDentista' dentista.id %}">Apagar </a></li>
-  </ul>
+  <li>Dentista: {{ dentista.nome }}</li>
+  <li>Contratada em: {{ dentista.data_contratacao |date:"D, d M Y" }}</li>
+  <li><a href="{% url 'funcionarios:horarioDentista' dentista.id %}">Horários</a></li>
+  <li><a href="{% url 'funcionarios:updateDentista' dentista.id %}">Editar </a></li>
+  <li><a href="{% url 'funcionarios:deleteDentista' dentista.id %}">Apagar </a></li>
+</ul>
+
+{% if restricao_list %}
+<section>
+  {% for restricao in restricao_list %}
+  <article>
+      <p>{{ restricao.data }}</p>
+      <p>{{ restricao.hora_inicio }} - {{ restricao.hora_fim }} </p>
+      <form method="post" action="{% url 'funcionarios:deleteRestricao' restricao.id %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Excluir</button>
+      </form>
+  </article>
+  {% endfor %}
+</section>
+{% else %}
+<p>Não foi encontrado nenhuma restrição de horário.</p>
+{% endif %} 
+
 {% endblock content %}

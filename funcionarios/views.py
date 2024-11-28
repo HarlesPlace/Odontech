@@ -5,6 +5,7 @@ from .models import Dentista,Secretario
 from contas.models import User
 from consultas.models import Restricao
 from .forms import DentistaForm, UserDentistaRegistrationForm, SecretarioForm, UserSecretarioRegistrationForm, RestricaoDentistaForm
+from datetime import date
 
 class CreateUserDentista(generic.CreateView):
     model=User
@@ -41,6 +42,11 @@ class ListDentista(generic.ListView):
 class DetailDentista(generic.DetailView):
     model=Dentista
     template_name='funcionarios/detailDentista.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        restricao_list = Restricao.objects.filter(dentista=self.object.pk,data__gte=date.today()).order_by('data','hora_inicio')
+        context['restricao_list'] = restricao_list
+        return context
 
 def searchDentista(request):
     context = {}
@@ -111,9 +117,14 @@ class CreateRestricaoDentista(generic.CreateView):
             restricao.dentista= dentista
             # Salva a restrição
             restricao.save()
-            print(dentista.pk)
             return render(request, 'funcionarios/detailDentista.html', {'form': form,'dentista':dentista})
         return render(request, 'funcionarios/createRestricaoDentista.html', {'form': form})
     
     #def get_success_url(self):
         #return reverse('funcionarios:detailDentista',args=[self.object.dentista.pk])
+
+class DeleteRestricao(generic.DeleteView):
+    model = Restricao
+    def get_success_url(self):
+        # Redireciona para a página de detalhes do dentista após a exclusão
+        return reverse('funcionarios:detailDentista', kwargs={'pk': self.object.dentista.pk})
