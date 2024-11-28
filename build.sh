@@ -9,7 +9,7 @@ python manage.py collectstatic --no-input
 python manage.py migrate
 
 # create superuser if missing
-cat < | python manage.py shell
+cat <<EOF | python manage.py shell
 import os
 from django.contrib.auth import get_user_model
 
