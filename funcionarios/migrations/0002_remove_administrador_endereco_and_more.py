@@ -88,7 +88,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="secretario",
             name="cep",
-            field=models.CharField(default="aaaaaaaaaaaaaaaaaa", max_length=15),
+            field=models.CharField(default="aaaaaaaaaaaaaaa", max_length=15),
             preserve_default=False,
         ),
         migrations.AddField(
