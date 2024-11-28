@@ -10,17 +10,25 @@ from .models import *
 class ConsultaForm(forms.ModelForm):
     class Meta:
         model = Consulta
-        fields = ['data', 'hora', 'dentista','paciente']
+        fields = ['data', 'hora', 'dentista','paciente', 'procedimentos']
 
     paciente = forms.ModelChoiceField(
         queryset = Cliente.objects.all(),
         required = True,
         label = "Paciente"
     )
+    
     dentista = forms.ModelChoiceField(
         queryset = Dentista.objects.all(),
         required = True,
         label = "Dentista"
+    )
+
+    procedimentos = forms.ModelMultipleChoiceField(
+        queryset = Procedimento.objects.all(),
+        required = True,
+        widget = forms.CheckboxSelectMultiple,
+        label = "Procedimentos"
     )
 
     data = forms.DateField(widget=forms.SelectDateWidget, label="Data")
@@ -33,9 +41,8 @@ class ConsultaForm(forms.ModelForm):
 
         if commit: 
             consulta.save()    
-            # Associa o procedimento automaticamente para cliente, deixem um procedimento "Consulta" no bd de vcs
-            procedimento_especifico = Procedimento.objects.get(nome="Consulta") 
-            consulta.procedimentos.add(procedimento_especifico)
+            # procedimento_especifico = Procedimento.objects.get(nome="Consulta") 
+            # consulta.procedimentos.add(procedimento_especifico)
             
             # ---------- jeito que funciona pra cadastrar n2n--------------------------
             #if 'procedimentos' in self.cleaned_data:
@@ -71,7 +78,8 @@ class ConsultaFormPaciente(forms.ModelForm):
 
         if commit: 
             consulta.save()
-            
+
+            # Associa o procedimento automaticamente para cliente, deixem um procedimento "Consulta" no bd de vcs
             procedimento_especifico = Procedimento.objects.get(nome="Consulta") 
             consulta.procedimentos.add(procedimento_especifico)
         
@@ -88,7 +96,7 @@ class ConsultaFormPaciente(forms.ModelForm):
 class ConsultaFormDentista(forms.ModelForm):
     class Meta:
         model = Consulta
-        fields = ['data', 'hora', 'paciente']
+        fields = ['data', 'hora', 'paciente', 'procedimentos']
 
     paciente = forms.ModelChoiceField(
         queryset = Cliente.objects.all(),
@@ -96,6 +104,12 @@ class ConsultaFormDentista(forms.ModelForm):
         label = "Paciente"
     )
     
+    procedimentos = forms.ModelMultipleChoiceField(
+        queryset = Procedimento.objects.all(),
+        required = True,
+        widget = forms.CheckboxSelectMultiple,
+        label = "Procedimentos"
+    )
 
     data = forms.DateField(widget=forms.SelectDateWidget, label="Data")
     hora = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}), label="Hora")
@@ -109,8 +123,8 @@ class ConsultaFormDentista(forms.ModelForm):
         if commit: 
             consulta.save()
             
-            procedimento_especifico = Procedimento.objects.get(nome="Consulta") 
-            consulta.procedimentos.add(procedimento_especifico)
+            # procedimento_especifico = Procedimento.objects.get(nome="Consulta") 
+            # consulta.procedimentos.add(procedimento_especifico)
             
         return consulta
     

@@ -16,5 +16,11 @@
     {% endfor %}
   </ul>
   
+  {% if user.cliente != consulta.paciente %}
+    <a href="{% url 'consultas:editar_consulta' pk=consulta.pk %}">
+      <button>Editar Consulta</button>
+    </a>
+  {% endif %}
+
   <a href="{% url 'consultas:lista_consultas' %}">Voltar para a lista de consultas</a>
 {% endblock %}
