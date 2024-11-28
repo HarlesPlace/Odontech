@@ -13,14 +13,14 @@ class ConsultaForm(forms.ModelForm):
         fields = ['data', 'hora', 'dentista','paciente']
 
     paciente = forms.ModelChoiceField(
-        queryset=Cliente.objects.all(),
-        required=True,
-        label="Paciente"
+        queryset = Cliente.objects.all(),
+        required = True,
+        label = "Paciente"
     )
     dentista = forms.ModelChoiceField(
-        queryset=Dentista.objects.all(),
-        required=True,
-        label="Dentista"
+        queryset = Dentista.objects.all(),
+        required = True,
+        label = "Dentista"
     )
 
     data = forms.DateField(widget=forms.SelectDateWidget, label="Data")
@@ -43,6 +43,11 @@ class ConsultaForm(forms.ModelForm):
                 #consulta.procedimentos.set(procedimentos)  # Associa os procedimentos selecionados à consulta
         return consulta
 
+    def __init__(self, *args, **kwargs):
+        # Por mais que não seja usado nesse form, tem que ter isso pra não bugar
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
 
 class ConsultaFormPaciente(forms.ModelForm):
     class Meta:
@@ -50,16 +55,16 @@ class ConsultaFormPaciente(forms.ModelForm):
         fields = ['data', 'hora', 'dentista']
 
     dentista = forms.ModelChoiceField(
-        queryset=Dentista.objects.all(),
-        required=True,
-        label="Dentista"
+        queryset = Dentista.objects.all(),
+        required = True,
+        label = "Dentista"
     )
 
     data = forms.DateField(widget=forms.SelectDateWidget, label="Data")
     hora = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}), label="Hora")
 
     def save(self,commit=True):
-        consulta=super().save(commit=False)
+        consulta = super().save(commit=False)
         
         consulta.status = 'agendada'
         consulta.paciente = self.user.cliente
@@ -86,9 +91,9 @@ class ConsultaFormDentista(forms.ModelForm):
         fields = ['data', 'hora', 'paciente']
 
     paciente = forms.ModelChoiceField(
-        queryset=Cliente.objects.all(),
-        required=True,
-        label="Paciente"
+        queryset = Cliente.objects.all(),
+        required = True,
+        label = "Paciente"
     )
     
 
@@ -96,7 +101,7 @@ class ConsultaFormDentista(forms.ModelForm):
     hora = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}), label="Hora")
 
     def save(self,commit=True):
-        consulta=super().save(commit=False)
+        consulta = super().save(commit=False)
                 
         consulta.status = 'agendada'
         consulta.dentista = self.user.dentista

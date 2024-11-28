@@ -7,36 +7,73 @@ from funcionarios.models import Dentista
 class PedidoForm(forms.ModelForm):
     class Meta:
         model = Pedido
-        fields = ['data', 'status', 'cliente', 'dentista', 'exames']
+        fields = ['data', 'cliente', 'dentista', 'exames']
 
     cliente = forms.ModelChoiceField(
-        queryset=Cliente.objects.all(), 
-        required=True,
-        label="Paciente")
+        queryset = Cliente.objects.all(), 
+        required = True,
+        label = "Paciente")
     
     dentista = forms.ModelChoiceField(
-        queryset=Dentista.objects.all(), 
-        required=True,
-        label="Dentista")
+        queryset = Dentista.objects.all(), 
+        required = True,
+        label = "Dentista")
     
     exames = forms.ModelMultipleChoiceField(
-        queryset=Exame.objects.all(), 
-        required=True, 
-        widget=forms.CheckboxSelectMultiple,
-        label="Exames")
+        queryset = Exame.objects.all(), 
+        required = True, 
+        widget = forms.CheckboxSelectMultiple,
+        label = "Exames")
 
     data = forms.DateField(widget=forms.SelectDateWidget)
-    status = forms.ChoiceField(choices=[('pendente', 'Pendente'), 
-                                        ('realizado', 'Realizado')], 
-                                        required=True)
+    # status = forms.ChoiceField(choices=[('pendente', 'Pendente'), 
+    #                                     ('realizado', 'Realizado')], 
+    #                                     required=True)
+    
+    def save(self,commit=True):
+        pedido = super().save(commit=False)
+                
+        pedido.status = 'pendente'
+        if commit: 
+            pedido.save()
+
+        return pedido
     
     def __init__(self, *args, **kwargs):
-        # Pega os argumentos do view para verificar se devemos desabilitar campos
-        disabled_fields = kwargs.pop('disabled_fields', [])
+        # Pega o usuário da view
+        self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
-        # Desabilita os campos conforme necessário
-        for field in disabled_fields:
-            if field in self.fields:
-                self.fields[field].widget.attrs['disabled'] = 'disabled'
-                self.fields[field].required = False  # Torna o campo não obrigatório
+
+class PedidoFormDentista(forms.ModelForm):
+    class Meta:
+        model = Pedido
+        fields = ['data', 'cliente', 'exames']
+
+    cliente = forms.ModelChoiceField(
+        queryset = Cliente.objects.all(), 
+        required = True,
+        label = "Paciente")
+    
+    exames = forms.ModelMultipleChoiceField(
+        queryset = Exame.objects.all(), 
+        required = True, 
+        widget = forms.CheckboxSelectMultiple,
+        label = "Exames")
+
+    data = forms.DateField(widget=forms.SelectDateWidget)
+    
+    def save(self,commit=True):
+        pedido=super().save(commit=False)
+                
+        pedido.status = 'pendente'
+        pedido.dentista = self.user.dentista
+        if commit: 
+            pedido.save()
+
+        return pedido
+    
+    def __init__(self, *args, **kwargs):
+        # Pega o usuário da view
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
