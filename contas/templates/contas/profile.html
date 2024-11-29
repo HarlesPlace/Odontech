@@ -12,13 +12,36 @@ Perfil
     <li>Tipo de usuário: {{ user.tipo_usuario }}</li>
 </ul>
 
-<div class="actions">
-    
-    <a href="{% url 'consultas:criar_consulta' %}" class="btn btn-primary">Agendar Nova Consulta</a>
-    <a href="{% url 'consultas:lista_consultas' %}" class="btn btn-secondary">Ver Minhas Consultas</a>
-    
-    <a href="{% url 'exames:criar_pedido' %}" class="btn btn-success">Agendar Novo Exame</a>
-    <a href="{% url 'exames:lista_pedidos' %}" class="btn btn-info">Ver Meus Exames</a>
-</div>
+    {% if user.tipo_usuario == 'admin' %}
+
+        <div class="admin_actions">
+
+                <a href="{% url 'funcionarios:indexDentista' %}" class="btn btn-primary">Ver Dentistas</a>
+                <a href="{% url 'funcionarios:indexSecretario' %}" class="btn btn-primary">Ver Secretários</a>
+
+            </div>
+
+    {% elif user.tipo_usuario == 'secretary' %}
+
+        <div class="secretary_actions">
+
+            <a href="{% url 'funcionarios:indexDentista' %}" class="btn btn-primary">Ver Dentistas</a>
+
+
+        </div>
+
+    {% elif user.tipo_usuario == 'dentista' %}
+
+    {% endif%}
+
+
+    <div class="actions">
+
+        <a href="{% url 'consultas:criar_consulta' %}" class="btn btn-primary">Agendar Nova Consulta</a>
+        <a href="{% url 'consultas:lista_consultas' %}" class="btn btn-secondary">Ver Minhas Consultas</a>
+
+        <a href="{% url 'exames:criar_pedido' %}" class="btn btn-success">Agendar Novo Exame</a>
+        <a href="{% url 'exames:lista_pedidos' %}" class="btn btn-info">Ver Meus Exames</a>
+    </div>
 
 {% endblock content %}

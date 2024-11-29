@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.views import View
 from django.contrib import messages
 from .forms import *
+from contas.models import User
+from funcionarios.models import Dentista
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -56,6 +58,14 @@ class LoginView(View):
             else:
                 messages.error(request, "Credenciais inválidas. Tente novamente.")
         return render(request, 'registration/login.html', {'form': form})
+
+
+
+def dentistas(request):
+    dentistas = User.objects.filter(tipo_usuario='dentist')
+    print(dentistas)
+    return render(request, 'profile.html', {'dentistas': dentistas})
+
 
 @login_required
 def user_profile(request):
