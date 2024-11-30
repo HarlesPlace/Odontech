@@ -1,11 +1,17 @@
-// Abrir o menu lateral
 function openMenu() {
-    document.getElementById("sidebar").style.width = "250px"; // Largura do menu
-    document.getElementById("overlay").style.display = "block"; // Mostrar o overlay
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    
+    // Adiciona a classe "open" ao menu e exibe o overlay
+    sidebar.classList.add("open");
+    overlay.style.display = "block";
 }
 
-// Fechar o menu lateral
 function closeMenu() {
-    document.getElementById("sidebar").style.width = "0"; // Esconder o menu
-    document.getElementById("overlay").style.display = "none"; // Esconder o overlay
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    
+    // Remove a classe "open" do menu e oculta o overlay
+    sidebar.classList.remove("open");
+    overlay.style.display = "none";
 }

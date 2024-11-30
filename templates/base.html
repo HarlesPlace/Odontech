@@ -17,20 +17,15 @@
 </head>
 <body>
    <header>
-    {% if user.is_authenticated %}
-                    <li> Logado com {{ user.username }} </li>
-                    <li>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                        <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
-                            {% csrf_token %}
-                        </form>
-                {% else %}
-                    <li><a href="{% url 'login' %}">Log in</a></li>
-                {% endif %}
+
         <div class="menu-container">
-            <button class="menu-button" onclick="openMenu()">
-                <img src="{% static 'icone_menu.png' %}" alt="Menu">
+
+            <button class="botao-menu" onclick="openMenu()" aria-label="Abrir menu">
+                <img src="{% static 'icone_menu.png' %}" alt="Ícone do menu">
             </button>
+            
+            <div id="overlay" class="overlay" onclick="closeMenu()"></div>
+            
             <div id="sidebar" class="sidebar">
                 <a href="#home">Início</a>
                 <a href="#sobre">Sobre</a>
@@ -40,15 +35,32 @@
 
         <h1>Odontech</h1>
 
+        <div class="dados-usuario">
+            {% if user.is_authenticated %}
+                <li>Logado com {{ user.username }}</li>
+                <li>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                    <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                        {% csrf_token %}
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Log in</a></li>
+            {% endif %}
+        </div>
+        
    </header>
 
    <main>
     {% block content %}
     {% endblock content %}
+    <script src="{% static 'header.js' %}"></script>
     </main>
 
-   <footer>
+    <footer>
+        {% block footer %}
+        {% endblock footer %}
+    </footer>
 
-   </footer>
 </body>
 </html>
