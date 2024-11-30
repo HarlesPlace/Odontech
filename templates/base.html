@@ -9,7 +9,7 @@
 	<meta name="keywords" content="">
 	<meta name="robots" content="index, follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"> 
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}"> 
     <!-- Favicon 
 	<link rel="shortcut icon" href="{% static 'favicon.png' %}">
     -->
@@ -17,16 +17,15 @@
 </head>
 <body>
    <header>
-    {% if user.is_authenticated %}
-                    <li> Logado com {{ user.username }} </li>
-                    <li>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                        <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
-                            {% csrf_token %}
-                        </form>
-                {% else %}
-                    <li><a href="{% url 'login' %}">Log in</a></li>
-                {% endif %}
+        {% if user.is_authenticated %}
+            <li> Logado com {{ user.username }} </li>
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+            <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                {% csrf_token %}
+            </form>
+            {% else %}
+                <li><a href="{% url 'login' %}">Log in</a></li>
+            {% endif %}
         <div class="menu-container">
             <button class="menu-button" onclick="openMenu()">
                 <img src="{% static 'icone_menu.png' %}" alt="Menu">
@@ -38,16 +37,15 @@
             </div>
         </div>
         <h1>Odontech</h1>
+        <script src="header.js"></script>
+    </header>
 
-   </header>
-
-   <main>
+    <main>
     {% block content %}
     {% endblock content %}
     </main>
+    <footer>
 
-   <footer>
-
-   </footer>
+    </footer>
 </body>
 </html>
