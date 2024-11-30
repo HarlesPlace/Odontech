@@ -33,26 +33,27 @@
                     <a href="#contato">Contato</a>
                 </div>
 
-            {% if user.tipo_usuario == 'admin' %}
+            {% elif user.tipo_usuario == 'dentist' %}
                 <div id="sidebar" class="sidebar">
                     <a href="#home">Início</a>
                     <a href="#sobre">Sobre</a>
                     <a href="#contato">Contato</a>
                 </div>
 
-            {% if user.tipo_usuario == 'admin' %}
+            {% elif user.tipo_usuario == 'secretary' %}
                 <div id="sidebar" class="sidebar">
                     <a href="#home">Início</a>
                     <a href="#sobre">Sobre</a>
                     <a href="#contato">Contato</a>
                 </div>
                 
-            {% if user.tipo_usuario == 'admin' %}
+            {% else %}
                 <div id="sidebar" class="sidebar">
                     <a href="#home">Início</a>
                     <a href="#sobre">Sobre</a>
                     <a href="#contato">Contato</a>
                 </div>
+            {% endif%}
 
         </div>
 
