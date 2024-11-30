@@ -1,12 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import Http404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy,reverse
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from .forms import *
 from datetime import time,datetime,timedelta
 import locale
+import math
+from funcionarios.forms import SelecionarDentistaForm
+from pacientes.models import Cliente
+from django.utils.dateparse import parse_datetime
 locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
 def iterar_horarios(data):
@@ -17,54 +21,115 @@ def iterar_horarios(data):
         yield horario_atual
         horario_atual += timedelta(minutes=30)
 
-def gerar_horarios(data):
-    inicio = datetime.combine(data, time(8, 0))  #Início às 08:00
-    fim = datetime.combine(data, time(19, 30)) 
-    horarios = []
-    while inicio <= fim:
-        horarios.append(inicio.strftime('%H:%M'))
-        inicio += timedelta(minutes=30)
-    return horarios
-
 class CriarConsultaView(LoginRequiredMixin, CreateView):
     model = Consulta
     template_name = 'consultas/criar_consulta.html'
     success_url = reverse_lazy('consultas:lista_consultas')
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        user = self.request.user
-        
-        kwargs['user'] = user  # Passando o usuário para o formulário
-        
-        return kwargs
-    
-    def get_form_class(self):
-        user = self.request.user
-
-        # Verifica o tipo de usuário e escolhe o formulário correto
-        if hasattr(user, 'cliente'):
-            return ConsultaFormPaciente  # Formulário para pacientes
-        
-        elif hasattr(user, 'dentista'):
-            return ConsultaFormDentista  # Formulário para dentistas
-        
-        else:
-            return ConsultaForm  # Formulário com todos os campos
-        
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get(self, request, pk=None):
+        dentista=Dentista.objects.get(id=pk)
+        dentistaform=SelecionarDentistaForm()
+        form=self.get_form_class()
         calendario = {}
         dia = datetime.today().date()
-
         for i in range(15):
             if dia.weekday()!=6:
-                calendario[dia.strftime('%d/%m (%a)')] = gerar_horarios(dia)
+                calendario[dia.strftime('%d/%m (%a)')] = self.gerar_horarios(dia,dentista)
                 dia += timedelta(days=1)
             else:
                 calendario[dia.strftime('%d/%m (%a)')] = []
                 dia += timedelta(days=1)
-        context['calendario'] = calendario
+        return render(request, 'consultas/criar_consulta.html', {'form':form,'dentista':dentista,'calendario':calendario,'dentistaform':dentistaform})
+    
+    def post(self, request, pk):
+        hora_selecionada = request.POST.get('hora')
+        form_class = self.get_form_class()
+        form = form_class(request.POST, user=request.user)
+
+        if hora_selecionada:
+            if form.is_valid():
+                # Converte o horário para datetime
+                horario = parse_datetime(hora_selecionada)
+                dentista = Dentista.objects.get(id=pk)
+                consulta = form.save(commit=False)
+                consulta.status = 'agendada'
+                consulta.paciente = Cliente.objects.get(usuario=self.request.user)
+                consulta.dentista = dentista
+                consulta.data = horario.date()  # Certifique-se que datahora é um datetime válido
+                consulta.hora = horario.time()
+                consulta.save()
+                procedimento_especifico = Procedimento.objects.get(nome="Consulta") 
+                consulta.procedimentos.add(procedimento_especifico)
+                consulta.save()
+            return redirect(self.success_url)
+        else:
+            return redirect('consultas:lista_consultas')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        user = self.request.user
+        kwargs['user'] = user  # Passando o usuário para o formulário
+        return kwargs
+    
+    def get_form_class(self):
+        user = self.request.user
+        # Verifica o tipo de usuário e escolhe o formulário correto
+        if hasattr(user, 'cliente'):
+            return ConsultaFormPaciente2  # Formulário para pacientes
+        elif hasattr(user, 'dentista'):
+            return ConsultaFormDentista  # Formulário para dentistas
+        else:
+            return ConsultaForm  # Formulário com todos os campos
+        
+    def gerar_horarios(self,data,dentista):
+        inicio = datetime.combine(data, time(8, 0))  #Início às 08:00
+        fim = datetime.combine(data, time(19, 30)) 
+        horarios = []
+        consultas=Consulta.objects.filter(dentista=dentista.id, data=data)
+        restricoes=Restricao.objects.filter(dentista=dentista.id, data=data)
+        print("99999999999999999999999999999999999999")
+        print(restricoes)
+        print(consultas)
+        while inicio <= fim:
+            print("entrei no while")
+            if restricoes:
+                print("Há restricoes nessa data")
+                for restricao in restricoes:
+                    print("******************")
+                    print(restricao)
+                    print(type(restricao))
+                    print(restricao.hora_inicio)
+                    print(type(restricao.hora_inicio))
+                    inicio_dt = datetime.combine(data, inicio.time())  # Combina com a data atual
+                    restricao_dt = datetime.combine(data, restricao.hora_inicio)  # O mesmo para a hora de restrição
+                    # Calcula a diferença
+                    diferenca = abs(inicio_dt - restricao_dt)
+                    print(restricao_dt)
+                    print(inicio_dt)
+                    print("diferença",diferenca)
+                    if inicio.time()==restricao.hora_inicio or (diferenca <= timedelta(minutes=15)):
+                        print(restricao.hora_inicio)
+                        print(restricao.hora_fim)
+                        inicio += abs(datetime.combine(data, restricao.hora_inicio)-datetime.combine(data,restricao.hora_fim))
+                        print(inicio)
+            if consultas:
+                print("Há consultas nessa data")
+                for consulta in (consultas):
+                    if inicio.time()!=consulta.hora:
+                        horarios.append(inicio)
+                        inicio += timedelta(minutes=30)       
+                    else:
+                        procedimentosConsulta=consulta.procedimentos.all()
+                        duracao_total = sum([proc.duracao_media.total_seconds() for proc in procedimentosConsulta])
+                        duracao_arredondada = math.ceil(duracao_total / (15 * 60)) * 15 * 60
+                        inicio += timedelta(seconds=duracao_arredondada)
+            else:
+                horarios.append(inicio)
+                inicio += timedelta(minutes=30)
+        return horarios
+  
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         return context
 
 class ConsultaUpdateView(UpdateView):
@@ -100,11 +165,11 @@ class ListaConsultasView(LoginRequiredMixin, ListView):
         
         if user.tipo_usuario == 'client':
             # Se for paciente, exibe somente suas consultas
-            return Consulta.objects.filter(paciente=user.cliente)
+            return Consulta.objects.filter(paciente=user.cliente).order_by('-data','-hora')
         
         elif user.tipo_usuario == 'dentist':
             # Se for dentista, exibe as consultas onde ele é o dentista
-            return Consulta.objects.filter(dentista=user.dentista)
+            return Consulta.objects.filter(dentista=user.dentista).order_by('-data','-hora')
 
         # Caso seja admin ou secretario, exibe todas as consultas
         return Consulta.objects.all()
@@ -113,3 +178,10 @@ class ConsultaDetailView(DetailView):
     model = Consulta
     template_name = 'consultas/detalhes_consulta.html'
     context_object_name = 'consulta'
+
+def SelecionaDentistaView(request):
+    if request.method == 'GET':
+        form = SelecionarDentistaForm(request.GET)
+        if form.is_valid():
+            pk = form.cleaned_data['dentista'].id
+            return redirect('consultas:criar_consulta', pk=pk)

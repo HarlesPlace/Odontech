@@ -91,7 +91,21 @@ class ConsultaFormPaciente(forms.ModelForm):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
-
+class ConsultaFormPaciente2(forms.ModelForm):
+    class Meta:
+        model = Consulta
+        fields = []
+    dentista=forms.HiddenInput
+    data = forms.HiddenInput
+    hora = forms.HiddenInput
+    status = forms.HiddenInput
+    paciente = forms.HiddenInput
+    procedimentos=forms.HiddenInput
+    
+    def __init__(self, *args, **kwargs):
+        # Pega o usuário da view
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
     
 
 class ConsultaFormDentista(forms.ModelForm):

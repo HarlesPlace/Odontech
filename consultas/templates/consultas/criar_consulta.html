@@ -5,10 +5,10 @@
 {% block content %}
 <h1>Criar Consulta</h1>
 
-<form method="post">
+<form method="get" action="{% url 'consultas:selecionaDentista' %}">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Agendar Consulta</button>
+    {{ dentistaform.as_p }}
+    <button type="submit">Selecionar</button>
 </form>
 
 
@@ -39,7 +39,7 @@
     
         updateButtons(); // Inicializa os botões
     });
-    </script>
+</script>
     
 <style>
     .carousel-container {
@@ -106,9 +106,16 @@
                 <article class="carousel-card">
                     <strong>{{ dia }}</strong>
                     <ul>
-                        {% if horarios %}
+                        {% if horarios  %}
                             {% for horario in horarios %}
-                                <li>{{ horario }}</li>
+                                <li>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        {{ form.as_p }}
+                                        <input type="hidden" name="hora" value="{{ horario|date:"Y-m-d H:i:s" }}">
+                                        <button type="submit" style="background: none; border: none; color: #007bff; text-decoration: underline; cursor: pointer;">{{ horario|date:"H:i" }}</button>
+                                    </form>
+                            </li>
                             {% endfor %}
                         {% else %}
                             <p>Fechado</p>
@@ -124,29 +131,5 @@
     <p>Não foi possível carregar</p>
 {% endif %}
 
-
-<hr>
-
-{% if calendario %}
-<section style="float: none;">
-    <h1>Selecione um horário</h1>
-        {% for dia, horarios in calendario.items %}
-            <article style="float: left;">
-                <strong>{{ dia }}</strong>
-                <ul>
-                    {% if horarios %}
-                        {% for horario in horarios %}
-                            <li>{{ horario }}</li>
-                        {% endfor %}
-                    {% else %}
-                        <p>Fechado</p>
-                    {% endif %}
-                </ul>
-            </article>
-        {% endfor %}
-</section>
-{% else %}
-    <p>Não foi possível carregar</p>
-{% endif %}
 
 {% endblock %}
