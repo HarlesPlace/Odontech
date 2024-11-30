@@ -26,11 +26,34 @@
             
             <div id="overlay" class="overlay" onclick="closeMenu()"></div>
             
-            <div id="sidebar" class="sidebar">
-                <a href="#home">Início</a>
-                <a href="#sobre">Sobre</a>
-                <a href="#contato">Contato</a>
-            </div>
+            {% if user.tipo_usuario == 'admin' %}
+                <div id="sidebar" class="sidebar">
+                    <a href="#home">Início</a>
+                    <a href="#sobre">Sobre</a>
+                    <a href="#contato">Contato</a>
+                </div>
+
+            {% if user.tipo_usuario == 'admin' %}
+                <div id="sidebar" class="sidebar">
+                    <a href="#home">Início</a>
+                    <a href="#sobre">Sobre</a>
+                    <a href="#contato">Contato</a>
+                </div>
+
+            {% if user.tipo_usuario == 'admin' %}
+                <div id="sidebar" class="sidebar">
+                    <a href="#home">Início</a>
+                    <a href="#sobre">Sobre</a>
+                    <a href="#contato">Contato</a>
+                </div>
+                
+            {% if user.tipo_usuario == 'admin' %}
+                <div id="sidebar" class="sidebar">
+                    <a href="#home">Início</a>
+                    <a href="#sobre">Sobre</a>
+                    <a href="#contato">Contato</a>
+                </div>
+
         </div>
 
         <h1>Odontech</h1>
