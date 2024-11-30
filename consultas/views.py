@@ -5,7 +5,26 @@ from django.views.generic import CreateView, UpdateView, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from .forms import *
+from datetime import time,datetime,timedelta
+import locale
+locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
+def iterar_horarios(data):
+    inicio = datetime.combine(data, time(8, 0))  #Início às 08:00
+    fim = datetime.combine(data, time(19, 30))  
+    horario_atual = inicio
+    while horario_atual <= fim:
+        yield horario_atual
+        horario_atual += timedelta(minutes=30)
+
+def gerar_horarios(data):
+    inicio = datetime.combine(data, time(8, 0))  #Início às 08:00
+    fim = datetime.combine(data, time(19, 30)) 
+    horarios = []
+    while inicio <= fim:
+        horarios.append(inicio.strftime('%H:%M'))
+        inicio += timedelta(minutes=30)
+    return horarios
 
 class CriarConsultaView(LoginRequiredMixin, CreateView):
     model = Consulta
@@ -32,7 +51,21 @@ class CriarConsultaView(LoginRequiredMixin, CreateView):
         
         else:
             return ConsultaForm  # Formulário com todos os campos
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        calendario = {}
+        dia = datetime.today().date()
 
+        for i in range(15):
+            if dia.weekday()!=6:
+                calendario[dia.strftime('%d/%m (%a)')] = gerar_horarios(dia)
+                dia += timedelta(days=1)
+            else:
+                calendario[dia.strftime('%d/%m (%a)')] = []
+                dia += timedelta(days=1)
+        context['calendario'] = calendario
+        return context
 
 class ConsultaUpdateView(UpdateView):
     model = Consulta

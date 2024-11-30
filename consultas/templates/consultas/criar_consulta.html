@@ -11,4 +11,142 @@
     <button type="submit">Agendar Consulta</button>
 </form>
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const track = document.querySelector('.carousel-track');
+        const cards = Array.from(document.querySelectorAll('.carousel-card'));
+        const leftButton = document.querySelector('.left-btn');
+        const rightButton = document.querySelector('.right-btn');
+    
+        const cardWidth = cards[0].getBoundingClientRect().width;
+        const visibleCards = 5;
+        let currentPosition = 0;
+    
+        function updateButtons() {
+            leftButton.disabled = currentPosition === 0;
+            rightButton.disabled = currentPosition >= cards.length - visibleCards;
+        }
+    
+        function moveCarousel(offset) {
+            currentPosition += offset;
+            track.style.transform = `translateX(-${currentPosition * cardWidth}px)`;
+            updateButtons();
+        }
+    
+        leftButton.addEventListener('click', () => moveCarousel(-1));
+        rightButton.addEventListener('click', () => moveCarousel(1));
+    
+        updateButtons(); // Inicializa os botões
+    });
+    </script>
+    
+<style>
+    .carousel-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+         /* max-width: 800px; Limite de largura */
+        margin: 0 auto;
+    }
+    
+    .carousel-track {
+        display: flex;
+        transition: transform 0.5s ease;
+        width: fit-content;
+    }
+    
+    .carousel-card {
+        flex: 0 0 10.83%; /* Cada card ocupa 20% do contêiner (5 cards visíveis) */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        margin: 0 10px;
+        background: #fff;
+        border-radius: 8px;
+        text-align: center;
+    }
+    
+    .carousel-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+        font-size: 16px;
+        border-radius: 50%;
+    }
+    
+    .left-btn {
+        left: 10px;
+    }
+    
+    .right-btn {
+        right: 10px;
+    }
+    
+    .carousel-btn:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+    </style>
+    
+{% if calendario %}
+<section style="float: none;">
+    <h1>Selecione um horário</h1>
+    <div class="carousel-container">
+        <button class="carousel-btn left-btn">&larr;</button>
+        <div class="carousel-track">
+            {% for dia, horarios in calendario.items %}
+                <article class="carousel-card">
+                    <strong>{{ dia }}</strong>
+                    <ul>
+                        {% if horarios %}
+                            {% for horario in horarios %}
+                                <li>{{ horario }}</li>
+                            {% endfor %}
+                        {% else %}
+                            <p>Fechado</p>
+                        {% endif %}
+                    </ul>
+                </article>
+            {% endfor %}
+        </div>
+        <button class="carousel-btn right-btn">&rarr;</button>
+    </div>
+</section>
+{% else %}
+    <p>Não foi possível carregar</p>
+{% endif %}
+
+
+<hr>
+
+{% if calendario %}
+<section style="float: none;">
+    <h1>Selecione um horário</h1>
+        {% for dia, horarios in calendario.items %}
+            <article style="float: left;">
+                <strong>{{ dia }}</strong>
+                <ul>
+                    {% if horarios %}
+                        {% for horario in horarios %}
+                            <li>{{ horario }}</li>
+                        {% endfor %}
+                    {% else %}
+                        <p>Fechado</p>
+                    {% endif %}
+                </ul>
+            </article>
+        {% endfor %}
+</section>
+{% else %}
+    <p>Não foi possível carregar</p>
+{% endif %}
+
 {% endblock %}
