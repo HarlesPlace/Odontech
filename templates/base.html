@@ -17,15 +17,16 @@
 </head>
 <body>
    <header>
-        {% if user.is_authenticated %}
-            <li> Logado com {{ user.username }} </li>
-            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-            <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
-                {% csrf_token %}
-            </form>
-            {% else %}
-                <li><a href="{% url 'login' %}">Log in</a></li>
-            {% endif %}
+    {% if user.is_authenticated %}
+                    <li> Logado com {{ user.username }} </li>
+                    <li>
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                        <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                            {% csrf_token %}
+                        </form>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Log in</a></li>
+                {% endif %}
         <div class="menu-container">
             <button class="menu-button" onclick="openMenu()">
                 <img src="{% static 'icone_menu.png' %}" alt="Menu">
@@ -36,16 +37,18 @@
                 <a href="#contato">Contato</a>
             </div>
         </div>
-        <h1>Odontech</h1>
-        <script src="header.js"></script>
-    </header>
 
-    <main>
+        <h1>Odontech</h1>
+
+   </header>
+
+   <main>
     {% block content %}
     {% endblock content %}
     </main>
-    <footer>
 
-    </footer>
+   <footer>
+
+   </footer>
 </body>
 </html>
