@@ -34,6 +34,7 @@
             <a href="{% url 'contas:profile' %}">Início</a>
             <a href="{% url 'consultas:selecionaDentista' %}">Agende uma Consulta</a>
             <a href="{% url 'consultas:lista_consultas' %}">Suas Consultas</a>
+            <a href="{% url 'pacientes:detailCliente' user.cliente.id %}">Perfil</a>
         </div>
     {% endif%}
 
