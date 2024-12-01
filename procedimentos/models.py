@@ -7,9 +7,6 @@ class Procedimento(models.Model):
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     custo = models.DecimalField(max_digits=10, decimal_places=2)
     duracao_media = models.DurationField()
-    def __str__(self):
-        return self.nome
-
 
     def __str__(self):
         return self.nome
