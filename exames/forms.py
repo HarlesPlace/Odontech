@@ -7,7 +7,7 @@ from funcionarios.models import Dentista
 class PedidoForm(forms.ModelForm):
     class Meta:
         model = Pedido
-        fields = ['data', 'cliente', 'dentista', 'exames']
+        fields = ['data', 'cliente', 'dentista', 'exames', 'status']
 
     cliente = forms.ModelChoiceField(
         queryset = Cliente.objects.all(), 
@@ -26,14 +26,14 @@ class PedidoForm(forms.ModelForm):
         label = "Exames")
 
     data = forms.DateField(widget=forms.SelectDateWidget)
-    # status = forms.ChoiceField(choices=[('pendente', 'Pendente'), 
-    #                                     ('realizado', 'Realizado')], 
-    #                                     required=True)
+    status = forms.ChoiceField(choices=[('pendente', 'Pendente'), 
+                                        ('realizado', 'Realizado')], 
+                                        required=True)
     
     def save(self,commit=True):
         pedido = super().save(commit=False)
                 
-        pedido.status = 'pendente'
+        
 
         if commit: 
             pedido.save()

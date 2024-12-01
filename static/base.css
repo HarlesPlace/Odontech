@@ -31,7 +31,8 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between; /* Espaço entre os elementos */
-    padding: 10px 20px;
+    padding: 1rem 3rem;
+    gap: 5rem;
     background-color: #023e8a; /* Azul escuro */
     color: white;
 }
@@ -129,8 +130,12 @@ nav {
     display: flex;
     justify-content: center; 
     padding: 12px 10px; 
-    gap: 15px;
+    gap: 20px;
     border-radius: 5px;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     font-size: 16px;
+}
+
+nav a {
+    color: #fff;
 }

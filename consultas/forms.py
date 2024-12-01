@@ -41,7 +41,7 @@ class ConsultaForm(forms.ModelForm):
     def save(self,commit=True):
         consulta=super().save(commit=False)
                 
-        consulta.status='agendada'
+        
 
         if commit: 
             consulta.save()
