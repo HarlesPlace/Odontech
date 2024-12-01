@@ -134,3 +134,11 @@ class RestricaoDentistaForm(ModelForm):
             'Data', 
             'Ínício', 'Término',
         ]
+
+class SelecionarDentistaForm(forms.Form):
+    dentista = forms.ModelChoiceField(
+        queryset=Dentista.objects.all(),
+        label="Selecione o Dentista",
+        empty_label="Escolha um dentista",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
