@@ -11,7 +11,8 @@
     {% if user.tipo_usuario == 'admin' %}
         <div id="sidebar" class="sidebar">
             <a href="{% url 'contas:profile' %}">Início</a>
-            <a href="{% url 'funcionarios:indexDenyista' %}">Dentistas</a>
+            <a href="{% url 'pacientes:listCliente' %}">Pacientes</a>
+            <a href="{% url 'funcionarios:indexDentista' %}">Dentistas</a>
             <a href="{% url 'funcionarios:indexSecretario' %}">Secretários</a>
         </div>
 
@@ -26,7 +27,8 @@
     {% elif user.tipo_usuario == 'secretary' %}
         <div id="sidebar" class="sidebar">
             <a href="{% url 'contas:profile' %}">Início</a>
-            <a href="{% url 'funcionarios:indexDenyista' %}">Dentistas</a>
+            <a href="{% url 'pacientes:listCliente' %}">Pacientes</a>
+            <a href="{% url 'funcionarios:indexDentista' %}">Dentistas</a>
         </div>
         
     {% else %}

@@ -4,15 +4,12 @@ body main{
     padding: 1 rem; 
     font-family: Arial, sans-serif;
 }
-main{
-    width: 80%;
-    margin: 0 auto;
-}
+
 
 body main table {
     width: 100%; /* Tabela ocupa toda a largura disponível */
     border-collapse: collapse; /* Remove o espaço entre as células */
-    margin: 20px 0; /* Espaçamento em torno da tabela */
+    margin: 0; /* Espaçamento em torno da tabela */
     font-family: Arial, sans-serif; /* Fonte para o texto */
 }
 
