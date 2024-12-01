@@ -1,0 +1,9 @@
+{% extends 'base.html' %} 
+{% block content %}
+<h2>Atualizar Dados Paciente</h2>
+<form method="POST" action="{% url 'pacientes:updateCliente' cliente.id %}">
+  {% csrf_token %}
+  {{form.as_p}}
+  <button type="submit">Atualizar</button>
+</form>
+{% endblock content %}

@@ -168,7 +168,15 @@ class ConsultaDetailView(LoginRequiredMixin, PermissionRequiredMixin,DetailView)
 
 def SelecionaDentistaView(request):
     if request.method == 'GET':
-        form = SelecionarDentistaForm(request.GET)
-        if form.is_valid():
-            pk = form.cleaned_data['dentista'].id
-            return redirect('consultas:criar_consulta', pk=pk)
+        try:
+            form = SelecionarDentistaForm(request.GET)
+            if form.is_valid():
+                pk = form.cleaned_data['dentista'].id
+                return redirect('consultas:criar_consulta', pk=pk)
+            else:
+                dentista=Dentista.objects.first()
+                return redirect('consultas:criar_consulta', pk=dentista.id)
+        except:
+            dentista=Dentista.objects.first()
+            return redirect('consultas:criar_consulta', pk=dentista.id)
+
