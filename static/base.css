@@ -4,6 +4,10 @@ body main{
     padding: 1 rem; 
     font-family: Arial, sans-serif;
 }
+main{
+    width: 80%;
+    margin: 0 auto;
+}
 
 body main table {
     width: 100%; /* Tabela ocupa toda a largura disponível */

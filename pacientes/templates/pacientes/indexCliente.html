@@ -1,0 +1,24 @@
+{% extends 'base.html' %} 
+{% block content %}
+<h2>Todos os Pacientes</h2>
+
+<section>
+  <p>
+    Muitos resultados? <a href="{% url 'pacientes:searchCliente' %}">Buscar Paciente</a>
+  </p>
+</section>
+<hr>
+{% if cliente_list %}
+<section>
+  {% for cliente in cliente_list %}
+  <article>
+    <p>{{ cliente.nome }} </p>
+    <a href="{% url 'pacientes:detailCliente' cliente.id %}">Detalhes</a>
+    <a href="{% url 'consultas:criar_consulta' cliente.id %}">Marcar Consulta</a>
+  </article>
+  {% endfor %}
+</section>
+{% else %}
+<p>Não foi encontrado nenhum paciente.</p>
+{% endif %} 
+{% endblock content %}
