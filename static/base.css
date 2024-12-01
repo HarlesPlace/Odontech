@@ -2,6 +2,10 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
 }
+main{
+    width: 80%;
+    margin: 0 auto;
+}
 
 header {
     display: flex;

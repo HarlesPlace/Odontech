@@ -104,9 +104,13 @@ class CriarConsultaView(LoginRequiredMixin,PermissionRequiredMixin, CreateView):
                         inicio += timedelta(minutes=30)       
                     else:
                         procedimentosConsulta=consulta.procedimentos.all()
-                        duracao_total = sum([proc.duracao_media.total_seconds() for proc in procedimentosConsulta])
-                        duracao_arredondada = math.ceil(duracao_total / (15 * 60)) * 15 * 60
-                        inicio += timedelta(seconds=duracao_arredondada)
+                        if procedimentosConsulta:
+                            duracao_total = sum([proc.duracao_media.total_seconds() for proc in procedimentosConsulta])
+                            duracao_arredondada = math.ceil(duracao_total / (15 * 60)) * 15 * 60
+                            inicio += timedelta(seconds=duracao_arredondada)
+                        else:
+                            inicio += timedelta(minutes=30)   
+
             else:
                 horarios.append(inicio)
                 inicio += timedelta(minutes=30)
@@ -180,3 +184,98 @@ def SelecionaDentistaView(request):
             dentista=Dentista.objects.first()
             return redirect('consultas:criar_consulta', pk=dentista.id)
 
+class CriarConsultaDentistaView(LoginRequiredMixin,PermissionRequiredMixin, CreateView):
+    permission_required = 'consultas.add_consulta'
+    model = Consulta
+    template_name = 'consultas/criar_consultaDentista.html'
+    success_url = reverse_lazy('consultas:lista_consultas')
+
+    def get(self, request, pk=None):
+        cliente=Cliente.objects.get(id=pk)
+        dentista=Dentista.objects.get(usuario=self.request.user)
+        #dentistaform=SelecionarDentistaForm()
+        form=self.get_form_class()
+        calendario = {}
+        dia = datetime.today().date()
+        for i in range(15):
+            if dia.weekday()!=6:
+                calendario[dia.strftime('%d/%m (%a)')] = self.gerar_horarios(dia,dentista)
+                dia += timedelta(days=1)
+            else:
+                calendario[dia.strftime('%d/%m (%a)')] = []
+                dia += timedelta(days=1)
+        return render(request, 'consultas/criar_consultaDentista.html', {'form':form,'dentista':dentista,'calendario':calendario,'cliente':cliente})
+    
+    def post(self, request, pk):
+        hora_selecionada = request.POST.get('hora')
+        form_class = self.get_form_class()
+        form = form_class(request.POST, user=request.user)
+
+        if hora_selecionada:
+            if form.is_valid():
+                # Converte o horário para datetime
+                horario = parse_datetime(hora_selecionada)
+                cliente = Cliente.objects.get(id=pk)
+                consulta = form.save(commit=False)
+                consulta.status = 'agendada'
+                consulta.paciente = cliente
+                consulta.dentista = Dentista.objects.get(usuario=self.request.user)
+                consulta.data = horario.date()  # Certifique-se que datahora é um datetime válido
+                consulta.hora = horario.time()
+                consulta.save()
+            return redirect("consultas:editar_consulta", pk=consulta.pk)
+        else:
+            return redirect('consultas:lista_consultas')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        user = self.request.user
+        kwargs['user'] = user  # Passando o usuário para o formulário
+        return kwargs
+    
+    def get_form_class(self):
+        user = self.request.user
+        # Verifica o tipo de usuário e escolhe o formulário correto
+        if hasattr(user, 'cliente'):
+            return ConsultaFormPaciente2  # Formulário para pacientes
+        elif hasattr(user, 'dentista'):
+            return ConsultaFormDentista2  # Formulário para dentistas
+        else:
+            return ConsultaForm  # Formulário com todos os campos
+        
+    def gerar_horarios(self,data,dentista):
+        inicio = datetime.combine(data, time(8, 0))  #Início às 08:00
+        fim = datetime.combine(data, time(19, 30)) 
+        horarios = []
+        consultas=Consulta.objects.filter(dentista=dentista.id, data=data)
+        restricoes=Restricao.objects.filter(dentista=dentista.id, data=data)
+        while inicio <= fim:
+            if restricoes:
+                for restricao in restricoes:
+                    inicio_dt = datetime.combine(data, inicio.time())  # Combina com a data atual
+                    restricao_dt = datetime.combine(data, restricao.hora_inicio)  # O mesmo para a hora de restrição
+                    # Calcula a diferença
+                    diferenca = abs(inicio_dt - restricao_dt)
+                    if inicio.time()==restricao.hora_inicio or (diferenca <= timedelta(minutes=15)):
+                        inicio += abs(datetime.combine(data, restricao.hora_inicio)-datetime.combine(data,restricao.hora_fim))
+            if consultas:
+                for consulta in (consultas):
+                    if inicio.time()!=consulta.hora:
+                        horarios.append(inicio)
+                        inicio += timedelta(minutes=30)       
+                    else:
+                        procedimentosConsulta=consulta.procedimentos.all()
+                        if procedimentosConsulta:
+                            duracao_total = sum([proc.duracao_media.total_seconds() for proc in procedimentosConsulta])
+                            duracao_arredondada = math.ceil(duracao_total / (15 * 60)) * 15 * 60
+                            inicio += timedelta(seconds=duracao_arredondada)
+                        else:
+                            inicio += timedelta(minutes=30)   
+            else:
+                horarios.append(inicio)
+                inicio += timedelta(minutes=30)
+        return horarios
+  
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
