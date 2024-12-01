@@ -50,7 +50,7 @@
             {% else %}
                 <div id="sidebar" class="sidebar">
                     <a href="{% url 'contas:profile' %}">Início</a>
-                    <a href="{% url 'consultas:criar_consulta' %}">Agende uma Consulta</a>
+                    <a href="{% url 'consultas:criar_consulta' 1 %}">Agende uma Consulta</a>
                     <a href="{% url 'consultas:lista_consultas'%}">Suas Consultas</a>
                 </div>
             {% endif%}
