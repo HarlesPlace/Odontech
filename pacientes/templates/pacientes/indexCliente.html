@@ -14,7 +14,7 @@
   <article>
     <p>{{ cliente.nome }} </p>
     <a href="{% url 'pacientes:detailCliente' cliente.id %}">Detalhes</a>
-    <a href="{% url 'consultas:criar_consulta' cliente.id %}">Marcar Consulta</a>
+    <a href="{% url 'consultas:Dentistacriar_consulta' cliente.id %}">Marcar Consulta</a>
   </article>
   {% endfor %}
 </section>
