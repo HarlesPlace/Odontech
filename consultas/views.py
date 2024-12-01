@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import Http404
 from django.urls import reverse_lazy,reverse
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from .models import *
 from .forms import *
 from datetime import time,datetime,timedelta
@@ -21,7 +21,8 @@ def iterar_horarios(data):
         yield horario_atual
         horario_atual += timedelta(minutes=30)
 
-class CriarConsultaView(LoginRequiredMixin, CreateView):
+class CriarConsultaView(LoginRequiredMixin,PermissionRequiredMixin, CreateView):
+    permission_required = 'consultas.add_consulta'
     model = Consulta
     template_name = 'consultas/criar_consulta.html'
     success_url = reverse_lazy('consultas:lista_consultas')
@@ -115,7 +116,7 @@ class CriarConsultaView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         return context
 
-class ConsultaUpdateView(UpdateView):
+class ConsultaUpdateView(UpdateView,LoginRequiredMixin, PermissionRequiredMixin):
     model = Consulta
     form_class = ConsultaForm
     template_name = 'consultas/edita_consulta.html'
@@ -137,7 +138,7 @@ class ConsultaUpdateView(UpdateView):
         
         return obj
  
-class ListaConsultasView(LoginRequiredMixin, ListView):
+class ListaConsultasView(LoginRequiredMixin,PermissionRequiredMixin, ListView):
     model = Consulta
     template_name = 'consultas/lista_consultas.html'
     context_object_name = 'consultas'
@@ -157,7 +158,7 @@ class ListaConsultasView(LoginRequiredMixin, ListView):
         # Caso seja admin ou secretario, exibe todas as consultas
         return Consulta.objects.all()
     
-class ConsultaDetailView(DetailView):
+class ConsultaDetailView(DetailView,LoginRequiredMixin,PermissionRequiredMixin):
     model = Consulta
     template_name = 'consultas/detalhes_consulta.html'
     context_object_name = 'consulta'

@@ -60,7 +60,7 @@ class LoginView(View):
         return render(request, 'registration/login.html', {'form': form})
 
 
-
+@login_required
 def dentistas(request):
     dentistas = User.objects.filter(tipo_usuario='dentist')
     print(dentistas)

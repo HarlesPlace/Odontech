@@ -6,8 +6,9 @@ from contas.models import User
 from consultas.models import Restricao
 from .forms import DentistaForm, UserDentistaRegistrationForm, SecretarioForm, UserSecretarioRegistrationForm, RestricaoDentistaForm
 from datetime import date
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 
-class CreateUserDentista(generic.CreateView):
+class CreateUserDentista(generic.CreateView,LoginRequiredMixin,PermissionRequiredMixin):
     model=User
     template_name="funcionarios/createUserDentista.html"
     form_class=UserDentistaRegistrationForm
@@ -15,31 +16,31 @@ class CreateUserDentista(generic.CreateView):
         dentista = Dentista.objects.get(usuario=self.object.pk)
         return reverse('funcionarios:updateDentista',args=[dentista.pk])
 
-class CreateDentista(generic.CreateView):
+class CreateDentista(generic.CreateView,LoginRequiredMixin,PermissionRequiredMixin):
     model=Dentista
     template_name="funcionarios/createDentista.html"
     form_class=DentistaForm
     def get_success_url(self):
         return reverse('funcionarios:detailDentista', args=[self.object.pk])
        
-class UpdateDentista(generic.UpdateView):
+class UpdateDentista(generic.UpdateView,LoginRequiredMixin,PermissionRequiredMixin):
     model= Dentista
     template_name="funcionarios/updateDentista.html"
     form_class=DentistaForm
     def get_success_url(self):
         return reverse('funcionarios:detailDentista', args=[self.object.pk])
 
-class DeleteDentista(generic.DeleteView):
+class DeleteDentista(generic.DeleteView,LoginRequiredMixin,PermissionRequiredMixin):
     model=Dentista
     template_name="funcionarios/deleteDentista.html"
     def get_success_url(self):
         return reverse('funcionarios:indexDentista')
     
-class ListDentista(generic.ListView):
+class ListDentista(generic.ListView,LoginRequiredMixin,PermissionRequiredMixin):
     model=Dentista
     template_name='funcionarios/indexDentista.html'
 
-class DetailDentista(generic.DetailView):
+class DetailDentista(generic.DetailView,LoginRequiredMixin,PermissionRequiredMixin):
     model=Dentista
     template_name='funcionarios/detailDentista.html'
     def get_context_data(self, **kwargs):
@@ -56,7 +57,7 @@ def searchDentista(request):
         context = {"dentista_list": dentista_list}
     return render(request, 'funcionarios/searchDentista.html', context)
 
-class CreateUserSecretario(generic.CreateView):
+class CreateUserSecretario(generic.CreateView,LoginRequiredMixin,PermissionRequiredMixin):
     model=User
     template_name="funcionarios/createUserSecretario.html"
     form_class=UserSecretarioRegistrationForm
@@ -64,31 +65,31 @@ class CreateUserSecretario(generic.CreateView):
         secretario = Secretario.objects.get(usuario=self.object.pk)
         return reverse('funcionarios:updateSecretario',args=[secretario.pk])
 
-class CreateSecretario(generic.CreateView):
+class CreateSecretario(generic.CreateView,LoginRequiredMixin,PermissionRequiredMixin):
     model=Secretario
     template_name="funcionarios/createSecretario.html"
     form_class=SecretarioForm
     def get_success_url(self):
         return reverse('funcionarios:detailSecretario', args=[self.object.pk])
        
-class UpdateSecretario(generic.UpdateView):
+class UpdateSecretario(generic.UpdateView,LoginRequiredMixin,PermissionRequiredMixin):
     model= Secretario
     template_name="funcionarios/updateSecretario.html"
     form_class=SecretarioForm
     def get_success_url(self):
         return reverse('funcionarios:detailSecretario', args=[self.object.pk])
 
-class DeleteSecretario(generic.DeleteView):
+class DeleteSecretario(generic.DeleteView,LoginRequiredMixin,PermissionRequiredMixin):
     model=Secretario
     template_name="funcionarios/deleteSecretario.html"
     def get_success_url(self):
         return reverse('funcionarios:indexSecretario')
     
-class ListSecretario(generic.ListView):
+class ListSecretario(generic.ListView,LoginRequiredMixin,PermissionRequiredMixin):
     model=Secretario
     template_name='funcionarios/indexSecretario.html'
 
-class DetailSecretario(generic.DetailView):
+class DetailSecretario(generic.DetailView,LoginRequiredMixin,PermissionRequiredMixin):
     model=Secretario
     template_name='funcionarios/detailSecretario.html'
 
@@ -100,7 +101,7 @@ def searchSecretario(request):
         context = {"secretario_list": secretario_list}
     return render(request, 'funcionarios/searchSecretario.html', context)
 
-class CreateRestricaoDentista(generic.CreateView):
+class CreateRestricaoDentista(generic.CreateView,LoginRequiredMixin,PermissionRequiredMixin):
     model=Restricao
     template_name="funcionarios/createRestricaoDentista.html"
     def get(self, request, pk):
@@ -123,7 +124,7 @@ class CreateRestricaoDentista(generic.CreateView):
     #def get_success_url(self):
         #return reverse('funcionarios:detailDentista',args=[self.object.dentista.pk])
 
-class DeleteRestricao(generic.DeleteView):
+class DeleteRestricao(generic.DeleteView,LoginRequiredMixin,PermissionRequiredMixin):
     model = Restricao
     def get_success_url(self):
         # Redireciona para a página de detalhes do dentista após a exclusão
