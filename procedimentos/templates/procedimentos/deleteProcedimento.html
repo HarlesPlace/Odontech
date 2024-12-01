@@ -1,6 +1,6 @@
 {% extends 'base.html' %} 
 {% block content %}
-<form action="{% url 'procedimentos:deleteProcedimento' procedimento.id %}" method="post">
+<form class="formClass" action="{% url 'procedimentos:deleteProcedimento' procedimento.id %}" method="post">
     {% csrf_token %}
     <p>
       Você tem certeza que deseja apagar o procedimento "{{ procedimento.nome }} "?

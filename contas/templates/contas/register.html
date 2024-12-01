@@ -12,7 +12,7 @@
 </head>
 <h2>Criar Usuário</h2>
 
-<form method="post">
+<form method="post" class="formClass">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Criar</button>

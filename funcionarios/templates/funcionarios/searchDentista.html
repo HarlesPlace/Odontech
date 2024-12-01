@@ -2,7 +2,7 @@
 {% block content %}
 
 <h2>Busca de Dentista por Nome</h2>
-<form action="{% url 'funcionarios:searchDentista' %}">
+<form class="formClass" action="{% url 'funcionarios:searchDentista' %}">
     <p>
         <label for="id_query">Nome:</label>
         <input type="text" name="query" id="id_query" />
