@@ -87,33 +87,16 @@ class CriarConsultaView(LoginRequiredMixin, CreateView):
         horarios = []
         consultas=Consulta.objects.filter(dentista=dentista.id, data=data)
         restricoes=Restricao.objects.filter(dentista=dentista.id, data=data)
-        print("99999999999999999999999999999999999999")
-        print(restricoes)
-        print(consultas)
         while inicio <= fim:
-            print("entrei no while")
             if restricoes:
-                print("Há restricoes nessa data")
                 for restricao in restricoes:
-                    print("******************")
-                    print(restricao)
-                    print(type(restricao))
-                    print(restricao.hora_inicio)
-                    print(type(restricao.hora_inicio))
                     inicio_dt = datetime.combine(data, inicio.time())  # Combina com a data atual
                     restricao_dt = datetime.combine(data, restricao.hora_inicio)  # O mesmo para a hora de restrição
                     # Calcula a diferença
                     diferenca = abs(inicio_dt - restricao_dt)
-                    print(restricao_dt)
-                    print(inicio_dt)
-                    print("diferença",diferenca)
                     if inicio.time()==restricao.hora_inicio or (diferenca <= timedelta(minutes=15)):
-                        print(restricao.hora_inicio)
-                        print(restricao.hora_fim)
                         inicio += abs(datetime.combine(data, restricao.hora_inicio)-datetime.combine(data,restricao.hora_fim))
-                        print(inicio)
             if consultas:
-                print("Há consultas nessa data")
                 for consulta in (consultas):
                     if inicio.time()!=consulta.hora:
                         horarios.append(inicio)
