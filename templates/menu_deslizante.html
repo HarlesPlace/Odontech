@@ -1,0 +1,40 @@
+{% load static %}
+
+<div class="menu-container">
+
+    <button class="botao-menu" onclick="openMenu()" aria-label="Abrir menu">
+        <img src="{% static 'icone_menu.png' %}" alt="Ícone do menu">
+    </button>
+    
+    <div id="overlay" class="overlay" onclick="closeMenu()"></div>
+    
+    {% if user.tipo_usuario == 'admin' %}
+        <div id="sidebar" class="sidebar">
+            <a href="{% url 'contas:profile' %}">Início</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#contato">Contato</a>
+        </div>
+
+    {% elif user.tipo_usuario == 'dentist' %}
+        <div id="sidebar" class="sidebar">
+            <a href="{% url 'contas:profile' %}">Início</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#contato">Contato</a>
+        </div>
+
+    {% elif user.tipo_usuario == 'secretary' %}
+        <div id="sidebar" class="sidebar">
+            <a href="{% url 'contas:profile' %}">Início</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#contato">Contato</a>
+        </div>
+        
+    {% else %}
+        <div id="sidebar" class="sidebar">
+            <a href="{% url 'contas:profile' %}">Início</a>
+            <a href="{% url 'consultas:criar_consulta' 1 %}">Agende uma Consulta</a>
+            <a href="{% url 'consultas:lista_consultas' %}">Suas Consultas</a>
+        </div>
+    {% endif%}
+
+</div>

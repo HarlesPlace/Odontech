@@ -100,3 +100,9 @@ header h1 {
 .sidebar.open {
     left: 0;
 }
+
+nav {
+    background-color: #ffffff;
+    padding: 5px;
+    border-radius: 5px;
+}
