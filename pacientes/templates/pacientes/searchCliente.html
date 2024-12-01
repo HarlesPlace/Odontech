@@ -1,0 +1,27 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<h2>Busca de Paciente por Nome</h2>
+<form action="{% url 'pacientes:searchCliente' %}">
+    <p>
+        <label for="id_query">Nome:</label>
+        <input type="text" name="query" id="id_query" />
+    </p>
+    <button type="submit">Buscar</button>
+</form>
+
+<h2>Pacientes Filtrados</h2>
+{% if cliente_list %}
+<section>
+  {% for cliente in cliente_list %}
+  <article>
+    <p>{{ cliente.nome }} </p>
+    <a href="{% url 'pacientes:detailCliente' cliente.id %}">Detalhes</a>
+    <a href="{% url 'consultas:criar_consulta' cliente.id %}">Marcar Consulta</a>
+  </article>
+  {% endfor %}
+</section>
+{% else %}
+<p>Não foi encontrado nenhum Paciente.</p>
+{% endif %} 
+{% endblock content %}

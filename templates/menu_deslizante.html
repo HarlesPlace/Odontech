@@ -18,6 +18,7 @@
     {% elif user.tipo_usuario == 'dentist' %}
         <div id="sidebar" class="sidebar">
             <a href="{% url 'contas:profile' %}">Início</a>
+            <a href="{% url 'pacientes:listCliente' %}">Pacientes</a>
             <a href="#sobre">Sobre</a>
             <a href="#contato">Contato</a>
         </div>

@@ -15,7 +15,7 @@ class Consulta(models.Model):
     
     paciente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     dentista = models.ForeignKey(Dentista, on_delete=models.CASCADE)
-    procedimentos=models.ManyToManyField(Procedimento)
+    procedimentos=models.ManyToManyField(Procedimento, blank=True)
 
 class Restricao(models.Model):
     dentista = models.ForeignKey(Dentista, on_delete=models.CASCADE)

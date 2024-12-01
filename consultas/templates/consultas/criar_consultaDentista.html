@@ -3,13 +3,7 @@
 {% block title %}Criar Consulta{% endblock %}
 
 {% block content %}
-<h1>Criar Consulta</h1>
-
-<form method="get" action="{% url 'consultas:selecionaDentista' %}">
-    {% csrf_token %}
-    {{ dentistaform.as_p }}
-    <button type="submit">Selecionar</button>
-</form>
+<h1>Criar Consulta para {{ cliente.nome }}</h1>
 
 
 <script>
