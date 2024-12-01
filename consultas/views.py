@@ -11,7 +11,7 @@ import math
 from funcionarios.forms import SelecionarDentistaForm
 from pacientes.models import Cliente
 from django.utils.dateparse import parse_datetime
-locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
+#locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
 def iterar_horarios(data):
     inicio = datetime.combine(data, time(8, 0))  #Início às 08:00
