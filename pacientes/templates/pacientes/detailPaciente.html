@@ -6,7 +6,7 @@
 
 {% block content %}
 <ul>
-    <li>Secretario: {{ cliente.nome }}</li>
+    <li>Paciente: {{ cliente.nome }}</li>
     <li>Nascimento: {{ cliente.data_nascimento |date:"D, d M Y" }}</li>
     <li><a href="{% url 'pacientes:updateCliente' cliente.id %}">Editar </a></li>
   </ul>
