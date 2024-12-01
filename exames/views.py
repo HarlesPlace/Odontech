@@ -8,6 +8,7 @@ from .forms import *
 
 
 class CriarPedidoView(LoginRequiredMixin,PermissionRequiredMixin, CreateView):
+    permission_required = 'exames.add_pedido'
     model = Pedido
     template_name = 'exames/criar_pedido.html'
     success_url = reverse_lazy('exames:lista_pedidos')
@@ -31,7 +32,8 @@ class CriarPedidoView(LoginRequiredMixin,PermissionRequiredMixin, CreateView):
             return PedidoForm  # Formulário com todos os campos
 
 
-class PedidoUpdateView(UpdateView,LoginRequiredMixin,PermissionRequiredMixin):
+class PedidoUpdateView(LoginRequiredMixin, PermissionRequiredMixin,UpdateView):
+    permission_required = 'exames.change_pedido'
     model = Pedido
     form_class = PedidoForm
     template_name = 'exames/editar_pedido.html'
@@ -55,6 +57,7 @@ class PedidoUpdateView(UpdateView,LoginRequiredMixin,PermissionRequiredMixin):
 
 
 class ListaPedidosView(LoginRequiredMixin,PermissionRequiredMixin, ListView):
+    permission_required = 'exames.view_pedido'
     model = Pedido
     template_name = 'exames/lista_pedidos.html'
     context_object_name = 'pedidos'
@@ -74,7 +77,8 @@ class ListaPedidosView(LoginRequiredMixin,PermissionRequiredMixin, ListView):
         return Pedido.objects.all()
     
 
-class PedidoDetailView(DetailView,LoginRequiredMixin,PermissionRequiredMixin):
+class PedidoDetailView(LoginRequiredMixin, PermissionRequiredMixin,DetailView):
+    permission_required = 'exames.view_pedido'
     model = Pedido
     template_name = 'exames/detalhes_pedido.html'
     context_object_name = 'pedido'

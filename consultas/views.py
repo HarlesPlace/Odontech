@@ -116,7 +116,8 @@ class CriarConsultaView(LoginRequiredMixin,PermissionRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         return context
 
-class ConsultaUpdateView(UpdateView,LoginRequiredMixin, PermissionRequiredMixin):
+class ConsultaUpdateView(LoginRequiredMixin, PermissionRequiredMixin,UpdateView):
+    permission_required = 'consultas.change_consulta'
     model = Consulta
     form_class = ConsultaForm
     template_name = 'consultas/edita_consulta.html'
@@ -139,6 +140,7 @@ class ConsultaUpdateView(UpdateView,LoginRequiredMixin, PermissionRequiredMixin)
         return obj
  
 class ListaConsultasView(LoginRequiredMixin,PermissionRequiredMixin, ListView):
+    permission_required = 'consultas.view_consulta'
     model = Consulta
     template_name = 'consultas/lista_consultas.html'
     context_object_name = 'consultas'
@@ -158,7 +160,8 @@ class ListaConsultasView(LoginRequiredMixin,PermissionRequiredMixin, ListView):
         # Caso seja admin ou secretario, exibe todas as consultas
         return Consulta.objects.all()
     
-class ConsultaDetailView(DetailView,LoginRequiredMixin,PermissionRequiredMixin):
+class ConsultaDetailView(LoginRequiredMixin, PermissionRequiredMixin,DetailView):
+    permission_required = 'consultas.view_consulta'
     model = Consulta
     template_name = 'consultas/detalhes_consulta.html'
     context_object_name = 'consulta'
