@@ -34,4 +34,14 @@ Perfil
 
     {% endif%}
 
+
+    <div class="actions">
+
+        <a href="{% url 'consultas:criar_consulta' 1%}" class="btn btn-primary">Agendar Nova Consulta</a>
+        <a href="{% url 'consultas:lista_consultas' %}" class="btn btn-secondary">Ver Minhas Consultas</a>
+
+        <a href="{% url 'exames:criar_pedido' %}" class="btn btn-success">Agendar Novo Exame</a>
+        <a href="{% url 'exames:lista_pedidos' %}" class="btn btn-info">Ver Meus Exames</a>
+    </div>
+
 {% endblock content %}

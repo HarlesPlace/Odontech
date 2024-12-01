@@ -3,53 +3,134 @@
 {% block title %}Criar Consulta{% endblock %}
 
 {% block content %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário Mensal</title>
-    <link rel="stylesheet" href="{% static 'calendario.css' %}">
-</head>
+<h1>Criar Consulta</h1>
 
-<body>
-    <main>
+<form method="get" action="{% url 'consultas:selecionaDentista' %}">
+    {% csrf_token %}
+    {{ dentistaform.as_p }}
+    <button type="submit">Selecionar</button>
+</form>
 
-    <h1>Criar Consulta</h1>
 
-    <div class="calendar-container">
-        <div class="calendar-header">
-            <button id="prev-month">◀</button>
-            <h2 id="current-month">Janeiro 2024</h2>
-            <button id="next-month">▶</button>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const track = document.querySelector('.carousel-track');
+        const cards = Array.from(document.querySelectorAll('.carousel-card'));
+        const leftButton = document.querySelector('.left-btn');
+        const rightButton = document.querySelector('.right-btn');
+    
+        const cardWidth = cards[0].getBoundingClientRect().width;
+        const visibleCards = 5;
+        let currentPosition = 0;
+    
+        function updateButtons() {
+            leftButton.disabled = currentPosition === 0;
+            rightButton.disabled = currentPosition >= cards.length - visibleCards;
+        }
+    
+        function moveCarousel(offset) {
+            currentPosition += offset;
+            track.style.transform = `translateX(-${currentPosition * cardWidth}px)`;
+            updateButtons();
+        }
+    
+        leftButton.addEventListener('click', () => moveCarousel(-1));
+        rightButton.addEventListener('click', () => moveCarousel(1));
+    
+        updateButtons(); // Inicializa os botões
+    });
+</script>
+    
+<style>
+    .carousel-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+         /* max-width: 800px; Limite de largura */
+        margin: 0 auto;
+    }
+    
+    .carousel-track {
+        display: flex;
+        transition: transform 0.5s ease;
+        width: fit-content;
+    }
+    
+    .carousel-card {
+        flex: 0 0 10.83%; /* Cada card ocupa 20% do contêiner (5 cards visíveis) */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        margin: 0 10px;
+        background: #fff;
+        border-radius: 8px;
+        text-align: center;
+    }
+    
+    .carousel-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+        font-size: 16px;
+        border-radius: 50%;
+    }
+    
+    .left-btn {
+        left: 10px;
+    }
+    
+    .right-btn {
+        right: 10px;
+    }
+    
+    .carousel-btn:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+    </style>
+    
+{% if calendario %}
+<section style="float: none;">
+    <h1>Selecione um horário</h1>
+    <div class="carousel-container">
+        <button class="carousel-btn left-btn">&larr;</button>
+        <div class="carousel-track">
+            {% for dia, horarios in calendario.items %}
+                <article class="carousel-card">
+                    <strong>{{ dia }}</strong>
+                    <ul>
+                        {% if horarios  %}
+                            {% for horario in horarios %}
+                                <li>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        {{ form.as_p }}
+                                        <input type="hidden" name="hora" value="{{ horario|date:"Y-m-d H:i:s" }}">
+                                        <button type="submit" style="background: none; border: none; color: #007bff; text-decoration: underline; cursor: pointer;">{{ horario|date:"H:i" }}</button>
+                                    </form>
+                            </li>
+                            {% endfor %}
+                        {% else %}
+                            <p>Fechado</p>
+                        {% endif %}
+                    </ul>
+                </article>
+            {% endfor %}
         </div>
-
-        <div class="calendar">
-            <div class="days-header">
-                <span>Dom</span>
-                <span>Seg</span>
-                <span>Ter</span>
-                <span>Qua</span>
-                <span>Qui</span>
-                <span>Sex</span>
-                <span>Sáb</span>
-            </div>
-            <div class="days-grid" id="days-grid"></div>
-        </div>
+        <button class="carousel-btn right-btn">&rarr;</button>
     </div>
+</section>
+{% else %}
+    <p>Não foi possível carregar</p>
+{% endif %}
 
-    <div class="agenda-modal" id="agenda-modal">
-        <div class="agenda-content">
-            <h3 id="selected-date">Dia 1</h3>
-            <ul id="agenda-list">
-                <!-- Horários serão gerados dinamicamente -->
-            </ul>
-        </div>
-    </div>
-
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Agendar Consulta</button>
-    </form>
 
     <script src="{% static 'calendario.js' %}"></script>
     </main>
