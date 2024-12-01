@@ -1,6 +1,10 @@
 {% load static %}
 <nav>
+    {% if user.tipo_usuario == 'dentist' and cliente %}
+    <a href="{% url 'consultas:Dentistacriar_consulta' cliente.id %}">Agendar Nova Consulta</a>
+    {% elif user.tipo_usuario == 'client' %}
     <a href="{% url 'consultas:selecionaDentista' %}">Agendar Nova Consulta</a>
+    {% endif %}
     <a href="{% url 'consultas:lista_consultas' %}">Ver Minhas Consultas</a>
 
     {% if user.tipo_usuario != 'client' %}

@@ -1,6 +1,6 @@
 {% load static %}
 
-{% if user.tipo_usuario == 'dentist' %}
+{% if user.tipo_usuario == 'dentist' and cliente %}
 <nav>
     <a href="{% url 'consultas:Dentistacriar_consulta' cliente.id %}">Agendar uma consulta</a>
     <a href="{% url 'exames:lista_pedidos' %}">Seus pedidos de exames</a>
