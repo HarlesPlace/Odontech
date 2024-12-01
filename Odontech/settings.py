@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "staticpages.apps.StaticpagesConfig",
     "clinicas.apps.ClinicasConfig",
     "consultas.apps.ConsultasConfig",
     "contas.apps.ContasConfig",
