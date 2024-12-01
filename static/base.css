@@ -20,7 +20,7 @@ main{
 body main table {
     width: 100%; /* Tabela ocupa toda a largura disponível */
     border-collapse: collapse; /* Remove o espaço entre as células */
-    margin: 20px 0; /* Espaçamento em torno da tabela */
+    margin: 0; /* Espaçamento em torno da tabela */
     font-family: Arial, sans-serif; /* Fonte para o texto */
 }
 
@@ -42,7 +42,8 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between; /* Espaço entre os elementos */
-    padding: 10px 20px;
+    padding: 1rem 3rem;
+    gap: 5rem;
     background-color: #023e8a; /* Azul escuro */
     background: linear-gradient(to left, #08a8f2, #1cdcbc);
     color: white;
@@ -138,15 +139,20 @@ header h1 {
     left: 0;
 }
 
+nav a {
+    color: #fff;
+}
+
 nav {
     display: flex;
     justify-content: center; 
     padding: 12px 10px; 
-    gap: 15px;
+    gap: 20px;
     border-radius: 5px;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     font-size: 16px;
 }
+
 .calendarioCabecalho{
     width: 100%;
     display: flex;
@@ -189,4 +195,8 @@ nav {
     width: 100%;
     padding: 0;
     min-width: 150px;
+}
+
+nav a {
+    color: #fff;
 }

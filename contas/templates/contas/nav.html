@@ -1,13 +1,10 @@
 {% load static %}
 <nav>
-    <div class="actions">
+    <a href="{% url 'consultas:selecionaDentista' %}">Agendar Nova Consulta</a>
+    <a href="{% url 'consultas:lista_consultas' %}">Ver Minhas Consultas</a>
 
-        <a href="{% url 'consultas:selecionaDentista' %}" class="btn btn-primary">Agendar Nova Consulta</a>
-        <a href="{% url 'consultas:lista_consultas' %}" class="btn btn-secondary">Ver Minhas Consultas</a>
-
-        {% if user.tipo_usuario != 'client' %}
-            <a href="{% url 'exames:criar_pedido' %}">Pedir exame</a>
-        {% endif %}
-        <a href="{% url 'exames:lista_pedidos' %}" class="btn btn-info">Ver Meus Exames</a>
-    </div>
+    {% if user.tipo_usuario != 'client' %}
+        <a href="{% url 'exames:criar_pedido' %}">Pedir exame</a>
+    {% endif %}
+    <a href="{% url 'exames:lista_pedidos' %}">Ver Meus Exames</a>
 </nav>
