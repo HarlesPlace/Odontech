@@ -1,7 +1,6 @@
 {% load static %}
 <nav>
 
-    <a href="{% url 'contas:profile' %}">Seu perfil</a>
     <a href="{% url 'consultas:lista_consultas' %}">Suas consultas</a>
     {% if user.tipo_usuario != 'client' %}
         <a href="{% url 'exames:criar_pedido' %}">Pedir exame</a>
