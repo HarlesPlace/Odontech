@@ -1,6 +1,29 @@
-body {
-    margin: 0;
+body main{
+    margin-left: 15%;
+    margin-right: 15%;
+    padding: 1 rem; 
     font-family: Arial, sans-serif;
+}
+
+body main table {
+    width: 100%; /* Tabela ocupa toda a largura disponível */
+    border-collapse: collapse; /* Remove o espaço entre as células */
+    margin: 20px 0; /* Espaçamento em torno da tabela */
+    font-family: Arial, sans-serif; /* Fonte para o texto */
+}
+
+body main th {
+    padding: 12px 15px; /* Espaçamento dentro das células do cabeçalho */
+    text-align: center; /* Alinhamento do texto à esquerda */
+    font-size: 16px; /* Tamanho da fonte */
+    border:  1.5px solid #8f8f8f; /* Linha divisória entre as linhas */
+}
+
+body main td {
+    padding: 10px 15px; /* Espaçamento dentro das células */
+    text-align: left; /* Alinhamento do texto à esquerda */
+    border:  1.5px solid #8f8f8f; /* Linha divisória entre as linhas */
+    font-size: 14px; /* Tamanho da fonte */
 }
 
 header {
@@ -102,7 +125,11 @@ header h1 {
 }
 
 nav {
-    background-color: #ffffff;
-    padding: 5px;
+    display: flex;
+    justify-content: center; 
+    padding: 12px 10px; 
+    gap: 15px;
     border-radius: 5px;
+    background-color: #ffffff;
+    font-size: 16px;
 }

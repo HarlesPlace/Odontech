@@ -19,7 +19,7 @@
         {% include 'menu_deslizante.html' %} <!--  Ver menu_delizante.html -->
         
         <!-- Incluir o menu de navegação específico do app -->
-        {% if request.resolver_match.app_name == 'consulta' or request.resolver_match.app_name == 'exames' or request.resolver_match.app_name == 'contas' %}
+        {% if request.resolver_match.app_name == 'consultas' or request.resolver_match.app_name == 'exames' or request.resolver_match.app_name == 'contas' %}
             {% with nav_path=request.resolver_match.app_name|add:'/nav.html' %}
                 {% include nav_path %}
             {% endwith %}
@@ -32,7 +32,7 @@
 
         <div class="dados-usuario">
             {% if user.is_authenticated %}
-                <li>Logado com {{ user.username }}</li>
+                <li>Logado com {{ user }}, {{ user.tipo_usuario }}</li>
                 <li>
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                     <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
@@ -43,13 +43,11 @@
                 <li><a href="{% url 'login' %}">Log in</a></li>
             {% endif %}
         </div>
-        
-   </header>
+    </header>
 
-   <main>
-    {% block content %}
-    {% endblock content %}
-    <script src="{% static 'header.js' %}"></script>
+    <main>
+        {% block content %}{% endblock content %}
+        <script src="{% static 'header.js' %}"></script>
     </main>
 
     <footer>

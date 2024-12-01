@@ -1,4 +1,5 @@
-<nav id="sidebar" class="sidebar">
+{% load static %}
+<nav>
     <a href="{% url 'contas:profile' %}">Seu perfil</a>
     <a href="{% url 'consultas:selecionaDentista' %}">Agendar uma consulta</a>
     <a href="{% url 'exames:lista_pedidos' %}">Seus pedidos de exames</a>
