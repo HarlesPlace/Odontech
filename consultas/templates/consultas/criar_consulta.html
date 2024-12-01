@@ -56,7 +56,7 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         padding: 10px;
         margin: 0 10px;
-        background: linear-gradient(to bottom, #08a8f2, #1cdcbc);
+        background: linear-gradient(to bottom, #08a8f2, #0cb9de);
         border-radius: 8px;
         text-align: center;
     }
@@ -113,7 +113,7 @@
                                     {% csrf_token %}
                                     {{ form.as_p }}
                                     <input type="hidden" name="hora" value="{{ horario|date:"Y-m-d H:i:s" }}">
-                                    <button type="submit" style="background: none; border: none; color: #fff; text-decoration: underline; cursor: pointer;">{{ horario|date:"H:i" }}</button>
+                                    <button type="submit" style="background: none; border: none; color: #fff; cursor: pointer;">{{ horario|date:"H:i" }}</button>
                                 </form>
                             </li>
                             {% endfor %}
