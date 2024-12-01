@@ -3,14 +3,7 @@
 {% block title %}Criar Consulta{% endblock %}
 
 {% block content %}
-<h1>Criar Consulta</h1>
-
-<form method="get" action="{% url 'consultas:selecionaDentista' %}">
-    {% csrf_token %}
-    {{ dentistaform.as_p }}
-    <button type="submit">Selecionar</button>
-</form>
-
+<h1 style="margin-bottom: 0;">Agendar Consulta</h1>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -59,7 +52,7 @@
     }
     
     .carousel-card {
-        flex: 0 0 9.1%; /* Cada card ocupa 20% do contêiner (5 cards visíveis) */
+       
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         padding: 10px;
         margin: 0 10px;
@@ -97,24 +90,31 @@
     </style>
     
 {% if calendario %}
+<div class="calendarioCabecalho">
+    <h3 style="float:left ">Dentista: {{ dentista }}</h3>
+    <form method="get" action="{% url 'consultas:selecionaDentista' %}">
+        {% csrf_token %}
+        {{ dentistaform.as_p }}
+        <button type="submit" style="float:left ">Selecionar</button>
+    </form>
+</div>
 <section style="float: none;">
-    <h1>Selecione um horário</h1>
     <div class="carousel-container">
         <button class="carousel-btn left-btn">&larr;</button>
         <div class="carousel-track">
             {% for dia, horarios in calendario.items %}
                 <article class="carousel-card">
                     <strong>{{ dia }}</strong>
-                    <ul>
+                    <ul class="listaHorarios">
                         {% if horarios  %}
                             {% for horario in horarios %}
-                                <li>
-                                    <form method="post">
-                                        {% csrf_token %}
-                                        {{ form.as_p }}
-                                        <input type="hidden" name="hora" value="{{ horario|date:"Y-m-d H:i:s" }}">
-                                        <button type="submit" style="background: none; border: none; color: #007bff; text-decoration: underline; cursor: pointer;">{{ horario|date:"H:i" }}</button>
-                                    </form>
+                            <li>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <input type="hidden" name="hora" value="{{ horario|date:"Y-m-d H:i:s" }}">
+                                    <button type="submit" style="background: none; border: none; color: #fff; text-decoration: underline; cursor: pointer;">{{ horario|date:"H:i" }}</button>
+                                </form>
                             </li>
                             {% endfor %}
                         {% else %}

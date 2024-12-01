@@ -1,12 +1,20 @@
-body main{
-    margin-left: 15%;
-    margin-right: 15%;
-    padding: 1 rem; 
+body{
+    margin:0;
+}
+
+main{
+    margin: 0 auto;
+    width: 80%;
+    margin-top: 80px;
     font-family: Arial, sans-serif;
 }
-main{
-    width: 80%;
-    margin: 0 auto;
+
+.fixed-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
 }
 
 body main table {
@@ -36,6 +44,7 @@ header {
     justify-content: space-between; /* Espaço entre os elementos */
     padding: 10px 20px;
     background-color: #023e8a; /* Azul escuro */
+    background: linear-gradient(to left, #08a8f2, #1cdcbc);
     color: white;
 }
 
@@ -105,6 +114,7 @@ header h1 {
     width: 250px;
     height: 100%;
     background-color: #023e8a; /* Azul escuro */
+    background: linear-gradient(to bottom, #08a8f2, #1cdcbc);
     color: #fff;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     transition: left 0.3s ease; /* Animação suave para abrir/fechar o menu */
@@ -136,4 +146,47 @@ nav {
     border-radius: 5px;
     background-color: #ffffff;
     font-size: 16px;
+}
+.calendarioCabecalho{
+    width: 100%;
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center;
+}
+
+.calendarioCabecalho h3{
+    width: 50%;
+    float: left;
+}
+
+.calendarioCabecalho form {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: space-between;
+}
+
+.calendarioCabecalho form p{
+    width: 70%;
+    float: left;
+}
+
+.calendarioCabecalho form button{
+    width: 30%;
+    float: right;
+}
+
+.calendarioCabecalho form p select{
+    width: 70%;
+    float: left;
+}
+
+.calendarioCabecalho form p label{
+    font-size: 12px;
+}
+
+.listaHorarios{
+    list-style: none;
+    width: 100%;
+    padding: 0;
+    min-width: 150px;
 }

@@ -14,7 +14,7 @@
     <title>{% block title %}{% endblock %} | Odontech</title>
 </head>
 <body>
-   <header>
+   <header class="fixed-top">
 
         {% include 'menu_deslizante.html' %} <!--  Ver menu_delizante.html -->
         
@@ -32,9 +32,9 @@
 
         <div class="dados-usuario">
             {% if user.is_authenticated %}
-                <li>Logado com {{ user }}, {{ user.tipo_usuario }}</li>
+                <li>{{ user }}</li>
                 <li>
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="color: aliceblue;">Logout</a>
                     <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
                         {% csrf_token %}
                     </form>
