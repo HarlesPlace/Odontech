@@ -1,22 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}Criar Consulta{% endblock %}
 
 {% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário Mensal</title>
+    <link rel="stylesheet" href="{% static 'calendario.css' %}">
+</head>
+
 <body>
     <main>
+
     <h1>Criar Consulta</h1>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Calendário Mensal</title>
-        <link rel="stylesheet" href="{% static 'calendario.css' %}">
+
     <div class="calendar-container">
         <div class="calendar-header">
             <button id="prev-month">◀</button>
             <h2 id="current-month">Janeiro 2024</h2>
             <button id="next-month">▶</button>
         </div>
+
         <div class="calendar">
             <div class="days-header">
                 <span>Dom</span>
