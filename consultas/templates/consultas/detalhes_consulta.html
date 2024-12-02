@@ -12,15 +12,15 @@
     <h3>Procedimentos Realizados:</h3>
     <ul>
         {% for procedimento in consulta.procedimentos.all %}
-          <li>{{ procedimento.nome }} - {{ procedimento.descricao }}</li>
+            <li>{{ procedimento.nome }} - {{ procedimento.descricao }}</li>
         {% endfor %}
     </ul>
     
     {% if user.cliente != consulta.paciente %}
         <a href="{% url 'consultas:editar_consulta' pk=consulta.pk %}">
-          <button>Editar Consulta</button>
+            <button>Editar Consulta</button>
         </a>
-      {% endif %}
+    {% endif %}
 
     <a href="{% url 'consultas:lista_consultas' %}">Voltar para a lista de consultas</a>
 

@@ -1,14 +1,52 @@
-body {
-    margin: 0;
+body{
+    margin:0;
+    height: 100vh; /* 100% da altura da janela */
+}
+
+main{
+    margin: 0 auto;
+    width: 80%;
+    margin-top: 80px;
     font-family: Arial, sans-serif;
+}
+
+.fixed-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+body main table {
+    width: 100%; /* Tabela ocupa toda a largura disponível */
+    border-collapse: collapse; /* Remove o espaço entre as células */
+    margin: 0; /* Espaçamento em torno da tabela */
+    font-family: Arial, sans-serif; /* Fonte para o texto */
+}
+
+body main th {
+    padding: 12px 15px; /* Espaçamento dentro das células do cabeçalho */
+    text-align: center; /* Alinhamento do texto à esquerda */
+    font-size: 16px; /* Tamanho da fonte */
+    border:  1.5px solid #8f8f8f; /* Linha divisória entre as linhas */
+}
+
+body main td {
+    padding: 10px 15px; /* Espaçamento dentro das células */
+    text-align: left; /* Alinhamento do texto à esquerda */
+    border:  1.5px solid #8f8f8f; /* Linha divisória entre as linhas */
+    font-size: 14px; /* Tamanho da fonte */
 }
 
 header {
     display: flex;
     align-items: center;
     justify-content: space-between; /* Espaço entre os elementos */
-    padding: 10px 20px;
+    padding: 1rem 3rem;
+    gap: 5rem;
     background-color: #023e8a; /* Azul escuro */
+    background: linear-gradient(to left, #08a8f2, #1cdcbc);
     color: white;
 }
 
@@ -78,6 +116,7 @@ header h1 {
     width: 250px;
     height: 100%;
     background-color: #023e8a; /* Azul escuro */
+    background: linear-gradient(to bottom, #08a8f2, #1cdcbc);
     color: #fff;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     transition: left 0.3s ease; /* Animação suave para abrir/fechar o menu */
@@ -99,4 +138,316 @@ header h1 {
 
 .sidebar.open {
     left: 0;
+}
+
+nav a {
+    color: #fff;
+}
+
+nav {
+    display: flex;
+    justify-content: center; 
+    padding: 12px 10px; 
+    gap: 20px;
+    border-radius: 5px;
+    /* background-color: #ffffff; */
+    font-size: 16px;
+}
+
+.calendarioCabecalho{
+    width: 100%;
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center;
+}
+
+.calendarioCabecalho h3{
+    width: 50%;
+    float: left;
+}
+
+.calendarioCabecalho form {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: space-between;
+}
+
+.calendarioCabecalho form p{
+    width: 70%;
+    float: left;
+}
+
+.calendarioCabecalho form button{
+    width: 30%;
+    float: right;
+}
+
+.calendarioCabecalho form p select{
+    width: 70%;
+    float: left;
+}
+
+.calendarioCabecalho form p label{
+    font-size: 12px;
+}
+
+.listaHorarios{
+    list-style: none;
+    width: 100%;
+    padding: 0;
+    min-width: 170px;
+}
+
+.listaHorarios li{
+    height:25px;
+    padding-top: 2.5px;
+}
+
+.listaHorarios li:hover{
+    height:25px;
+    padding-top: 2.5px;
+    border-radius: 5px;
+    border: #023e8a solid 2px;
+    background: linear-gradient(to left, #14cccc, #0cb9de);
+}
+
+nav a {
+    color: #fff;
+}
+
+.formClass{
+    max-width: 600px;
+    margin: 0 auto; 
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.formClass input,
+.formClass select,
+.formClass textarea,
+.formClass button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.formClass label {
+    margin: 0; 
+    line-height: 1.3; 
+}
+
+.formClass input[type="checkbox"]{
+    width: auto; 
+    margin-right: 10px; 
+}
+
+.formClass input[type="text"],
+.formClass input[type="email"],
+.formClass input[type="password"] {
+    background-color: #fff;
+    color: #333;
+}
+
+.formClass button {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
+
+.formClass button:hover {
+    background-color: #0056b3;
+}
+
+.formClass button[type="submit"] {
+    width: auto; 
+    margin: 20px auto; 
+    padding: 10px 20px;
+    display: block;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+.formClass button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+.formClass textarea {
+    min-height: 100px;
+    resize: vertical; 
+}
+.form-control {
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.is-invalid {
+    border-color: red;
+    background-color: #ffe6e6;
+}
+
+.help-text {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+.errorlist {
+    list-style: none;
+    color: red;
+    font-size: 14px;
+    padding: 0;
+}
+
+#id_procedimentos div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Espaço entre os itens */
+}
+
+#id_procedimentos label {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espaço entre o checkbox e o texto */
+    margin: 0; /* Garante alinhamento exato */
+}
+
+#id_procedimentos input[type="checkbox"] {
+    margin: 0; /* Remove margens padrão */
+    width: auto; /* Ajusta o tamanho do checkbox */
+}
+
+
+.consulta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.consulta-table thead {
+    background: linear-gradient(to left, #14cccc, #0cb9de);
+    color: #fff;
+}
+
+.consulta-table th,
+.consulta-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.consulta-table th {
+    font-weight: bold;
+    text-align: center;
+}
+
+.consulta-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.consulta-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.consulta-table a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.consulta-table a:hover {
+    text-decoration: underline;
+}
+
+.dentista-info {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.dentista-dados {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dentista-dados li {
+    margin: 10px 0;
+}
+
+.dentista-dados a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+}
+
+.dentista-dados a:hover {
+    text-decoration: underline;
+}
+
+.link-danger {
+    color: #FF0000;
+}
+
+.link-danger:hover {
+    text-decoration: underline;
+    color: #CC0000;
+}
+
+/* Lista de restrições */
+.restricao-list {
+    margin: 20px 0;
+    padding: 0;
+}
+
+.restricao-item {
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+}
+
+.restricao-item p {
+    margin: 5px 0;
+}
+
+.delete-form {
+    display: inline;
+}
+
+.delete-form .btn-danger {
+    background-color: #FF0000;
+    border: none;
+    padding: 5px 10px;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.delete-form .btn-danger:hover {
+    background-color: #CC0000;
+}
+
+/* Mensagem de ausência de restrições */
+.no-restricoes {
+    margin: 20px 0;
+    font-style: italic;
+    color: #666;
 }

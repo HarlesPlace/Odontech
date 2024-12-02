@@ -10,7 +10,7 @@ from .models import *
 class ConsultaForm(forms.ModelForm):
     class Meta:
         model = Consulta
-        fields = ['data', 'hora', 'dentista','paciente', 'procedimentos']
+        fields = ['data', 'hora', 'dentista','paciente', 'procedimentos', 'status']
 
     paciente = forms.ModelChoiceField(
         queryset = Cliente.objects.all(),
@@ -33,11 +33,15 @@ class ConsultaForm(forms.ModelForm):
 
     data = forms.DateField(widget=forms.SelectDateWidget, label="Data")
     hora = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}), label="Hora")
-
+    status = forms.ChoiceField(choices=[('agendada', 'Agendada'), 
+                                       ('suspensa', 'Suspensa'), 
+                                       ('concluída', 'Concluída')], 
+                                        required=True)
+    
     def save(self,commit=True):
         consulta=super().save(commit=False)
                 
-        consulta.status='agendada'
+        
 
         if commit: 
             consulta.save()
@@ -148,6 +152,21 @@ class ConsultaFormDentista(forms.ModelForm):
             
         return consulta
     
+    def __init__(self, *args, **kwargs):
+        # Pega o usuário da view
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+class ConsultaFormDentista2(forms.ModelForm):
+    class Meta:
+        model = Consulta
+        fields = []
+    data = forms.HiddenInput
+    hora = forms.HiddenInput
+    status = forms.HiddenInput
+    paciente = forms.HiddenInput
+    procedimentos=forms.HiddenInput
+
     def __init__(self, *args, **kwargs):
         # Pega o usuário da view
         self.user = kwargs.pop('user', None)

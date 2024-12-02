@@ -3,7 +3,8 @@
 {% block title %}Criar Consulta{% endblock %}
 
 {% block content %}
-<h1 style="margin-bottom: 0;">Agendar Consulta</h1>
+<h1>Criar Consulta para {{ cliente.nome }}</h1>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -90,15 +91,8 @@
     </style>
     
 {% if calendario %}
-<div class="calendarioCabecalho">
-    <h3 style="float:left ">Dentista: {{ dentista }}</h3>
-    <form method="get" action="{% url 'consultas:selecionaDentista' %}">
-        {% csrf_token %}
-        {{ dentistaform.as_p }}
-        <button type="submit" style="float:left ">Selecionar</button>
-    </form>
-</div>
 <section style="float: none;">
+    <h1 class="calendarioCabecalho">Selecione um horário</h1>
     <div class="carousel-container">
         <button class="carousel-btn left-btn">&larr;</button>
         <div class="carousel-track">
@@ -108,13 +102,13 @@
                     <ul class="listaHorarios">
                         {% if horarios  %}
                             {% for horario in horarios %}
-                            <li>
-                                <form method="post">
-                                    {% csrf_token %}
-                                    {{ form.as_p }}
-                                    <input type="hidden" name="hora" value="{{ horario|date:"Y-m-d H:i:s" }}">
-                                    <button type="submit" style="background: none; border: none; color: #fff; cursor: pointer;">{{ horario|date:"H:i" }}</button>
-                                </form>
+                                <li>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        {{ form.as_p }}
+                                        <input type="hidden" name="hora" value="{{ horario|date:"Y-m-d H:i:s" }}">
+                                        <button type="submit" style="background: none; border: none; color: #fff; cursor: pointer;">{{ horario|date:"H:i" }}</button>
+                                    </form>
                             </li>
                             {% endfor %}
                         {% else %}

@@ -3,32 +3,38 @@ from django.views import generic
 from django.urls import reverse
 from .models import Procedimento
 from .forms import ProcedimentoForm
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 
-class CreateProcedimento(generic.CreateView):
+class CreateProcedimento(LoginRequiredMixin, PermissionRequiredMixin,generic.CreateView):
+    permission_required = 'procedimentos.add_procedimento'
     model=Procedimento
     template_name="procedimentos/createProcedimento.html"
     form_class=ProcedimentoForm
     def get_success_url(self):
         return reverse('procedimentos:detailProcedimento', args=[self.object.pk])
        
-class UpdateProcedimento(generic.UpdateView):
+class UpdateProcedimento(LoginRequiredMixin, PermissionRequiredMixin,generic.UpdateView):
+    permission_required = 'procedimentos.change_procedimento'
     model= Procedimento
     template_name="procedimentos/updateProcedimento.html"
     form_class=ProcedimentoForm
     def get_success_url(self):
         return reverse('procedimentos:detailProcedimento', args=[self.object.pk])
 
-class DeleteProcedimento(generic.DeleteView):
+class DeleteProcedimento(LoginRequiredMixin, PermissionRequiredMixin,generic.DeleteView):
+    permission_required = 'procedimentos.delete_procedimento'
     model=Procedimento
     template_name="procedimentos/deleteProcedimento.html"
     def get_success_url(self):
         return reverse('procedimentos:indexProcedimento')
     
-class ListProcedimento(generic.ListView):
+class ListProcedimento(LoginRequiredMixin, PermissionRequiredMixin,generic.ListView):
+    permission_required = 'procedimentos.view_procedimento'
     model=Procedimento
     template_name='procedimentos/indexProcedimento.html'
 
-class DetailProcedimento(generic.DetailView):
+class DetailProcedimento(LoginRequiredMixin, PermissionRequiredMixin,generic.DetailView):
+    permission_required = 'procedimentos.view_procedimento'
     model=Procedimento
     template_name='procedimentos/detailProcedimento.html'
 

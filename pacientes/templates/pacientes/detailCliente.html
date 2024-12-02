@@ -1,0 +1,13 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+{{ cliente.nome }} 
+{% endblock title %} 
+
+{% block content %}
+<ul>
+    <li>Paciente: {{ cliente.nome }}</li>
+    <li>Nascimento: {{ cliente.data_nascimento |date:"D, d M Y" }}</li>
+    <li><a href="{% url 'pacientes:updateCliente' cliente.id %}">Editar </a></li>
+  </ul>
+{% endblock content %}

@@ -2,12 +2,13 @@ from django.shortcuts import render
 from django.http import Http404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from .models import *
 from .forms import *
 
 
-class CriarPedidoView(LoginRequiredMixin, CreateView):
+class CriarPedidoView(LoginRequiredMixin,PermissionRequiredMixin, CreateView):
+    permission_required = 'exames.add_pedido'
     model = Pedido
     template_name = 'exames/criar_pedido.html'
     success_url = reverse_lazy('exames:lista_pedidos')
@@ -31,9 +32,10 @@ class CriarPedidoView(LoginRequiredMixin, CreateView):
             return PedidoForm  # Formulário com todos os campos
 
 
-class PedidoUpdateView(UpdateView):
+class PedidoUpdateView(LoginRequiredMixin, PermissionRequiredMixin,UpdateView):
+    permission_required = 'exames.change_pedido'
     model = Pedido
-    form_class = PedidoForm
+    form_class = UpdatePedidoForm
     template_name = 'exames/editar_pedido.html'
     success_url = reverse_lazy('exames:lista_pedidos')
 
@@ -54,7 +56,8 @@ class PedidoUpdateView(UpdateView):
         return obj
 
 
-class ListaPedidosView(LoginRequiredMixin, ListView):
+class ListaPedidosView(LoginRequiredMixin,PermissionRequiredMixin, ListView):
+    permission_required = 'exames.view_pedido'
     model = Pedido
     template_name = 'exames/lista_pedidos.html'
     context_object_name = 'pedidos'
@@ -74,7 +77,8 @@ class ListaPedidosView(LoginRequiredMixin, ListView):
         return Pedido.objects.all()
     
 
-class PedidoDetailView(DetailView):
+class PedidoDetailView(LoginRequiredMixin, PermissionRequiredMixin,DetailView):
+    permission_required = 'exames.view_pedido'
     model = Pedido
     template_name = 'exames/detalhes_pedido.html'
     context_object_name = 'pedido'

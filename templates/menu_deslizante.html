@@ -1,0 +1,45 @@
+{% load static %}
+
+<div class="menu-container">
+
+    <button class="botao-menu" onclick="openMenu()" aria-label="Abrir menu">
+        <img src="{% static 'icone_menu.png' %}" alt="Ícone do menu">
+    </button>
+    
+    <div id="overlay" class="overlay" onclick="closeMenu()"></div>
+    
+    {% if user.tipo_usuario == 'admin' %}
+        <div id="sidebar" class="sidebar">
+            <a href="{% url 'contas:profile' %}">Início</a>
+            <a href="{% url 'pacientes:listCliente' %}">Pacientes</a>
+            <a href="{% url 'funcionarios:indexDentista' %}">Dentistas</a>
+            <a href="{% url 'funcionarios:indexSecretario' %}">Secretários</a>
+        </div>
+
+    {% elif user.tipo_usuario == 'dentist' %}
+        <div id="sidebar" class="sidebar">
+            <a href="{% url 'contas:profile' %}">Início</a>
+            <a href="{% url 'pacientes:listCliente' %}">Pacientes</a>
+            <a href="{% url 'funcionarios:detailDentista' user.dentista.id %}">Perfil</a>            
+        </div>
+
+    {% elif user.tipo_usuario == 'secretary' %}
+        <div id="sidebar" class="sidebar">
+            <a href="{% url 'contas:profile' %}">Início</a>
+            <a href="{% url 'pacientes:listCliente' %}">Pacientes</a>
+            <a href="{% url 'funcionarios:indexDentista' %}">Dentistas</a>
+            <a href="{% url 'funcionarios:detailSecretario' user.secretario.id %}">Perfil</a>
+        </div>
+        
+    {% else %}
+        <div id="sidebar" class="sidebar">
+            <a href="{% url 'contas:profile' %}">Início</a>
+            <a href="{% url 'consultas:lista_consultas' %}">Suas Consultas</a>
+            <a href="{% url 'exames:lista_pedidos' %}">Seus pedidos de exames</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'pacientes:detailCliente' user.cliente.id %}">Perfil</a>
+            {% endif%}
+        </div>
+    {% endif%}
+
+</div>

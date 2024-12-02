@@ -7,7 +7,7 @@ from funcionarios.models import Dentista
 class PedidoForm(forms.ModelForm):
     class Meta:
         model = Pedido
-        fields = ['data', 'cliente', 'dentista', 'exames']
+        fields = ['data', 'cliente', 'dentista', 'exames', 'status']
 
     cliente = forms.ModelChoiceField(
         queryset = Cliente.objects.all(), 
@@ -26,14 +26,14 @@ class PedidoForm(forms.ModelForm):
         label = "Exames")
 
     data = forms.DateField(widget=forms.SelectDateWidget)
-    # status = forms.ChoiceField(choices=[('pendente', 'Pendente'), 
-    #                                     ('realizado', 'Realizado')], 
-    #                                     required=True)
+    status = forms.ChoiceField(choices=[('pendente', 'Pendente'), 
+                                        ('realizado', 'Realizado')], 
+                                        required=True)
     
     def save(self,commit=True):
         pedido = super().save(commit=False)
                 
-        pedido.status = 'pendente'
+        
 
         if commit: 
             pedido.save()
@@ -79,6 +79,54 @@ class PedidoFormDentista(forms.ModelForm):
             exames_selecionados = self.cleaned_data['exames']
             pedido.exames.set(exames_selecionados)
 
+        return pedido
+    
+    def __init__(self, *args, **kwargs):
+        # Pega o usuário da view
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+class UpdatePedidoForm(forms.ModelForm):
+    class Meta:
+        model = Pedido
+        fields = ['data', 'cliente', 'dentista', 'exames', 'status', 'link_resultado']
+
+    cliente = forms.ModelChoiceField(
+        queryset = Cliente.objects.all(), 
+        required = True,
+        label = "Paciente")
+    
+    dentista = forms.ModelChoiceField(
+        queryset = Dentista.objects.all(), 
+        required = True,
+        label = "Dentista")
+    
+    exames = forms.ModelMultipleChoiceField(
+        queryset = Exame.objects.all(), 
+        required = True, 
+        widget = forms.CheckboxSelectMultiple,
+        label = "Exames")
+
+    data = forms.DateField(widget=forms.SelectDateWidget)
+    status = forms.ChoiceField(choices=[('pendente', 'Pendente'), 
+                                        ('realizado', 'Realizado')], 
+                                        required=True)
+    
+    link_resultado = forms.URLField(
+        required=False, 
+        label="Link do Resultado", 
+        widget=forms.URLInput(attrs={'placeholder': 'Informe o link do resultado'}),
+        initial=""  # Opcional: Você pode definir um valor inicial, caso o pedido já tenha link de resultado.
+    )
+
+    def save(self, commit=True):
+        pedido = super().save(commit=False)
+        
+        if commit:
+            pedido.save()
+            exames_selecionados = self.cleaned_data['exames']
+            pedido.exames.set(exames_selecionados)
+        
         return pedido
     
     def __init__(self, *args, **kwargs):

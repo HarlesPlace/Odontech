@@ -1,5 +1,14 @@
-<nav id="sidebar" class="sidebar">
-    <a href="{% url 'contas:profile' %}">Seu perfil</a>
-    <a href="{% url 'consultas:criar_consulta' %}">Agendar uma consulta</a>
+{% load static %}
+
+{% if user.tipo_usuario == 'dentist' and cliente %}
+<nav>
+    <a href="{% url 'consultas:Dentistacriar_consulta' cliente.id %}">Agendar uma consulta</a>
     <a href="{% url 'exames:lista_pedidos' %}">Seus pedidos de exames</a>
 </nav>
+
+{% elif user.tipo_usuario == 'client' %}
+<nav>
+    <a href="{% url 'consultas:selecionaDentista' %}">Agendar uma consulta</a>
+    <a href="{% url 'exames:lista_pedidos' %}">Seus pedidos de exames</a>
+</nav>
+{% endif %}

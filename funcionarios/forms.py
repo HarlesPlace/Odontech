@@ -2,8 +2,8 @@ from django.forms import ModelForm
 from django import forms
 from .models import Dentista,Secretario
 from django.contrib.auth import get_user_model
-from pacientes.models import Cliente
 from consultas.models import Restricao
+from django.contrib.auth.models import Group, Permission
 
 User = get_user_model()
 
@@ -42,6 +42,13 @@ class UserDentistaRegistrationForm(forms.ModelForm):
         if commit: 
             userdentista.save()
             Dentista.objects.create(usuario=userdentista,nome=(f'{userdentista.first_name} {userdentista.last_name}'))
+            try:
+                user_group = Group.objects.get(name="dentista")
+            except Group.DoesNotExist:
+                user_group = Group(name="dentista")
+                user_group.save()
+                user_group.permissions.set([Permission.objects.get(codename=c) for c in ["add_user", "change_user", "view_user", "view_clinica", "add_consulta", "change_consulta", "view_consulta","delete_consulta","add_restricao","change_restricao","delete_restricao","view_restricao", "view_exame","add_exame","change_exame","delete_exame", "view_pedido","add_pedido","change_pedido","delete_pedido", "view_dentista","change_dentista", "change_cliente", "view_cliente","view_procedimento","view_secretario","add_procedimento","change_procedimento","delete_procedimento",]])
+            userdentista.groups.add(user_group)
         return userdentista
     
 class DentistaForm(ModelForm):
@@ -99,6 +106,13 @@ class UserSecretarioRegistrationForm(forms.ModelForm):
         if commit: 
             usersecretario.save()
             Secretario.objects.create(usuario=usersecretario,nome=(f'{usersecretario.first_name} {usersecretario.last_name}'))
+            try:
+                user_group = Group.objects.get(name="secretario")
+            except Group.DoesNotExist:
+                user_group = Group(name="secretario")
+                user_group.save()
+                user_group.permissions.set([Permission.objects.get(codename=c) for c in ["add_user", "change_user", "view_user", "view_clinica","change_clinica", "add_consulta", "change_consulta", "view_consulta","delete_consulta","add_restricao","change_restricao","delete_restricao","view_restricao", "view_exame","add_exame","change_exame","delete_exame", "view_pedido","delete_pedido", "view_dentista","change_dentista", "change_cliente", "view_cliente","view_procedimento","view_secretario","change_secretario","add_procedimento","change_procedimento","delete_procedimento",]])
+            usersecretario.groups.add(user_group)
         return usersecretario
     
 class SecretarioForm(ModelForm):

@@ -1,3 +1,4 @@
+{% extends 'base.html' %} 
 {% load static %}
 {% block content %}
 <!DOCTYPE html>
@@ -5,12 +6,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'favicon.png' %}">
     <link rel="stylesheet" href="{% static 'register.css' %}">
     <title>Register</title>
 </head>
 <h2>Criar Usuário</h2>
 
-<form method="post">
+<form method="post" class="formClass">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Criar</button>

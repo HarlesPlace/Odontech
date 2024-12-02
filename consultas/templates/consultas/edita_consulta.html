@@ -3,7 +3,7 @@
 {% block content %}
   <h2>Editar Consulta</h2>
   
-  <form method="post">
+  <form method="post" class="formClass">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Salvar alterações</button>

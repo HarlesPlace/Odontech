@@ -10,60 +10,31 @@
 	<meta name="robots" content="index, follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}"> 
-    <!-- Favicon 
 	<link rel="shortcut icon" href="{% static 'favicon.png' %}">
-    -->
     <title>{% block title %}{% endblock %} | Odontech</title>
 </head>
 <body>
-   <header>
+   <header class="fixed-top">
 
-        <div class="menu-container">
+        {% include 'menu_deslizante.html' %} <!--  Ver menu_delizante.html -->
+        
+        <!-- Incluir o menu de navegação específico do app -->
+        {% if request.resolver_match.app_name == 'consultas' or request.resolver_match.app_name == 'exames' or request.resolver_match.app_name == 'contas' %}
+            {% with nav_path=request.resolver_match.app_name|add:'/nav.html' %}
+                {% include nav_path %}
+            {% endwith %}
+        {% else %}
+        
+        {% endif %}
 
-            <button class="botao-menu" onclick="openMenu()" aria-label="Abrir menu">
-                <img src="{% static 'icone_menu.png' %}" alt="Ícone do menu">
-            </button>
-            
-            <div id="overlay" class="overlay" onclick="closeMenu()"></div>
-            
-            {% if user.tipo_usuario == 'admin' %}
-                <div id="sidebar" class="sidebar">
-                    <a href="{% url 'contas:profile' %}">Início</a>
-                    <a href="#sobre">Sobre</a>
-                    <a href="#contato">Contato</a>
-                </div>
-
-            {% elif user.tipo_usuario == 'dentist' %}
-                <div id="sidebar" class="sidebar">
-                    <a href="{% url 'contas:profile' %}">Início</a>
-                    <a href="#sobre">Sobre</a>
-                    <a href="#contato">Contato</a>
-                </div>
-
-            {% elif user.tipo_usuario == 'secretary' %}
-                <div id="sidebar" class="sidebar">
-                    <a href="{% url 'contas:profile' %}">Início</a>
-                    <a href="#sobre">Sobre</a>
-                    <a href="#contato">Contato</a>
-                </div>
-                
-            {% else %}
-                <div id="sidebar" class="sidebar">
-                    <a href="{% url 'contas:profile' %}">Início</a>
-                    <a href="{% url 'consultas:criar_consulta' %}">Agende uma Consulta</a>
-                    <a href="{% url 'consultas:lista_consultas'%}">Suas Consultas</a>
-                </div>
-            {% endif%}
-
-        </div>
 
         <h1>Odontech</h1>
 
         <div class="dados-usuario">
             {% if user.is_authenticated %}
-                <li>Logado com {{ user.username }}</li>
+                <li>{{ user }}</li>
                 <li>
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="color: aliceblue;">Logout</a>
                     <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
                         {% csrf_token %}
                     </form>
@@ -72,13 +43,11 @@
                 <li><a href="{% url 'login' %}">Log in</a></li>
             {% endif %}
         </div>
-        
-   </header>
+    </header>
 
-   <main>
-    {% block content %}
-    {% endblock content %}
-    <script src="{% static 'header.js' %}"></script>
+    <main>
+        {% block content %}{% endblock content %}
+        <script src="{% static 'header.js' %}"></script>
     </main>
 
     <footer>

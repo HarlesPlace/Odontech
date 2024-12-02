@@ -2,7 +2,7 @@
 {% block content %}
 
 <h2>Busca de Procedimento por Nome</h2>
-<form action="{% url 'procedimentos:searchProcedimento' %}">
+<form class="formClass" action="{% url 'procedimentos:searchProcedimento' %}">
     <p>
         <label for="id_query">Nome:</label>
         <input type="text" name="query" id="id_query" />
