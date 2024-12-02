@@ -1,33 +1,35 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
-{% block title %} 
-{{ dentista.nome }} 
-{% endblock title %} 
+{% block title %}
+{{ dentista.nome }}
+{% endblock title %}
 
 {% block content %}
-<ul>
-  <li>Dentista: {{ dentista.nome }}</li>
-  <li>Contratada em: {{ dentista.data_contratacao |date:"D, d M Y" }}</li>
-  <li><a href="{% url 'funcionarios:horarioDentista' dentista.id %}">Horários</a></li>
-  <li><a href="{% url 'funcionarios:updateDentista' dentista.id %}">Editar </a></li>
-  <li><a href="{% url 'funcionarios:deleteDentista' dentista.id %}">Apagar </a></li>
-</ul>
+<div class="dentista-info">
+    <ul class="dentista-dados">
+        <li><strong>Dentista:</strong> {{ dentista.nome }}</li>
+        <li><strong>Contratada em:</strong> {{ dentista.data_contratacao | date:"D, d M Y" }}</li>
+        <li><a class="link" href="{% url 'funcionarios:horarioDentista' dentista.id %}">Horários</a></li>
+        <li><a class="link" href="{% url 'funcionarios:updateDentista' dentista.id %}">Editar</a></li>
+        <li><a class="link link-danger" href="{% url 'funcionarios:deleteDentista' dentista.id %}">Apagar</a></li>
+    </ul>
+</div>
 
 {% if restricao_list %}
-<section>
-  {% for restricao in restricao_list %}
-  <article>
-      <p>{{ restricao.data }}</p>
-      <p>{{ restricao.hora_inicio }} - {{ restricao.hora_fim }} </p>
-      <form  method="post" action="{% url 'funcionarios:deleteRestricao' restricao.id %}" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit">Excluir</button>
-      </form>
-  </article>
-  {% endfor %}
+<section class="restricao-list">
+    {% for restricao in restricao_list %}
+    <article class="restricao-item">
+        <p><strong>Data:</strong> {{ restricao.data }}</p>
+        <p><strong>Horário:</strong> {{ restricao.hora_inicio }} - {{ restricao.hora_fim }}</p>
+        <form method="post" action="{% url 'funcionarios:deleteRestricao' restricao.id %}" class="delete-form">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Excluir</button>
+        </form>
+    </article>
+    {% endfor %}
 </section>
 {% else %}
-<p>Não foi encontrado nenhuma restrição de horário.</p>
-{% endif %} 
+<p class="no-restricoes">Não foi encontrado nenhuma restrição de horário.</p>
+{% endif %}
 
 {% endblock content %}

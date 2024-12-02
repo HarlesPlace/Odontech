@@ -1,5 +1,7 @@
 body{
     margin:0;
+    height: 100vh; /* 100% da altura da janela */
+    overflow: hidden;
 }
 
 main{
@@ -327,4 +329,126 @@ nav a {
 #id_procedimentos input[type="checkbox"] {
     margin: 0; /* Remove margens padrão */
     width: auto; /* Ajusta o tamanho do checkbox */
+}
+
+
+.consulta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.consulta-table thead {
+    background: linear-gradient(to left, #14cccc, #0cb9de);
+    color: #fff;
+}
+
+.consulta-table th,
+.consulta-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.consulta-table th {
+    font-weight: bold;
+    text-align: center;
+}
+
+.consulta-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.consulta-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.consulta-table a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.consulta-table a:hover {
+    text-decoration: underline;
+}
+
+.dentista-info {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.dentista-dados {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dentista-dados li {
+    margin: 10px 0;
+}
+
+.dentista-dados a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+}
+
+.dentista-dados a:hover {
+    text-decoration: underline;
+}
+
+.link-danger {
+    color: #FF0000;
+}
+
+.link-danger:hover {
+    text-decoration: underline;
+    color: #CC0000;
+}
+
+/* Lista de restrições */
+.restricao-list {
+    margin: 20px 0;
+    padding: 0;
+}
+
+.restricao-item {
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+}
+
+.restricao-item p {
+    margin: 5px 0;
+}
+
+.delete-form {
+    display: inline;
+}
+
+.delete-form .btn-danger {
+    background-color: #FF0000;
+    border: none;
+    padding: 5px 10px;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.delete-form .btn-danger:hover {
+    background-color: #CC0000;
+}
+
+/* Mensagem de ausência de restrições */
+.no-restricoes {
+    margin: 20px 0;
+    font-style: italic;
+    color: #666;
 }
