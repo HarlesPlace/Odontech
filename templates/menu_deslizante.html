@@ -31,7 +31,7 @@
             <a href="{% url 'funcionarios:detailSecretario' user.secretario.id %}">Perfil</a>
         </div>
         
-    {% else %}
+    {% elif user.tipo_usuario == 'client' %}
         <div id="sidebar" class="sidebar">
             <a href="{% url 'contas:profile' %}">Início</a>
             <a href="{% url 'consultas:lista_consultas' %}">Suas Consultas</a>
@@ -39,6 +39,14 @@
             {% if user.is_authenticated %}
             <a href="{% url 'pacientes:detailCliente' user.cliente.id %}">Perfil</a>
             {% endif%}
+        </div>
+
+    {% elif user.is_authenticated %}
+        <div id="sidebar" class="sidebar">
+            <a href="{% url 'contas:profile' %}">Início</a>
+            <a href="{% url 'pacientes:listCliente' %}">Pacientes</a>
+            <a href="{% url 'funcionarios:indexDentista' %}">Dentistas</a>
+            <a href="{% url 'funcionarios:indexSecretario' %}">Secretários</a>
         </div>
     {% endif%}
 
