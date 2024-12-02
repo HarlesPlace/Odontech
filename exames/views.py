@@ -35,7 +35,7 @@ class CriarPedidoView(LoginRequiredMixin,PermissionRequiredMixin, CreateView):
 class PedidoUpdateView(LoginRequiredMixin, PermissionRequiredMixin,UpdateView):
     permission_required = 'exames.change_pedido'
     model = Pedido
-    form_class = PedidoForm
+    form_class = UpdatePedidoForm
     template_name = 'exames/editar_pedido.html'
     success_url = reverse_lazy('exames:lista_pedidos')
 

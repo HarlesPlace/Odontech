@@ -20,10 +20,7 @@
         <div id="sidebar" class="sidebar">
             <a href="{% url 'contas:profile' %}">Início</a>
             <a href="{% url 'pacientes:listCliente' %}">Pacientes</a>
-            <a href="{% url 'funcionarios:detailDentista' user.dentista.id %}">Perfil</a>
-            <a href="#sobre">Sobre</a>
-            <a href="#contato">Contato</a>
-            
+            <a href="{% url 'funcionarios:detailDentista' user.dentista.id %}">Perfil</a>            
         </div>
 
     {% elif user.tipo_usuario == 'secretary' %}
